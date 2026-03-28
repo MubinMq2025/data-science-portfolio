@@ -1,0 +1,1161 @@
+---
+title: "Final Project"
+format:
+  html:
+    toc: true
+  pdf:
+    pdf-engine: xelatex
+    number-sections: true
+params:
+  data_file: "inst/extdata/project2025.csv"
+  p2_path: "data/International_Students-2015_2024.csv"
+  gos_tables: "data/GOS_2024_National_Tables.xlsx"
+
+execute:
+  echo: false
+  warning: false
+  message: false
+bibliography: references.bib
+link-citations: true
+nocite: |
+  @R-base @wickham2016ggplot2 @project2025data
+reference-section-title: "References"
+---
+
+# **Part 1 : Programming**
+
+```{r}
+#| label: read-clean
+#| include: false
+
+df <- read.csv(params$data_file, check.names = TRUE)
+
+if ("X" %in% names(df)) df$X <- NULL
+
+# Standardise names
+
+nm <- gsub("[^a-z]", "", tolower(names(df)))
+
+
+map_to <- function(s) {
+if (s %in% c("id","x")) "ID"
+else if (s %in% c("gender","sex")) "Gender"
+else if (s %in% c("height","heightcm")) "Height"
+else if (s %in% c("weight","weightkg")) "Weight"
+else if (s %in% c("physicalactivity","activity","phys")) "Physical.Activity"
+else NA_character_
+}
+
+new_names <- vapply(nm, map_to, character(1))
+if (anyNA(new_names)) {
+stop("Unrecognised columns: ", paste(names(df)[is.na(new_names)], collapse = ", "))
+}
+names(df) <- new_names
+
+# Types
+
+df$Gender <- factor(df$Gender, levels = c("Female","Male"))
+df$Height <- as.numeric(df$Height)
+df$Weight <- as.numeric(df$Weight)
+df$Physical.Activity <- factor(df$Physical.Activity, levels = c("None","Moderate","Intense"))
+
+need <- c("ID","Gender","Height","Weight","Physical.Activity")
+miss <- setdiff(need, names(df))
+if (length(miss)) stop("Missing required columns: ", paste(miss, collapse = ", "))
+
+
+data_raw <- df
+```
+
+```{r}
+#| label: source-wrappers
+
+# Load the reusable analysis functions
+
+source("R/analysis_wrappers.R")
+
+```
+
+```{r}
+#| label: setup 
+#| include: false
+if (!requireNamespace("ggplot2", quietly = TRUE)) install.packages("ggplot2")
+library(ggplot2)
+
+```
+
+```{r}
+#| label: make-bib
+#| include: false
+bib <- '
+@book{wickham2016ggplot2,
+title = {ggplot2: Elegant Graphics for Data Analysis},
+author = {Wickham, Hadley},
+year = {2016},
+publisher = {Springer}
+}
+@manual{R-base,
+title = {R: A Language and Environment for Statistical Computing},
+author = {{R Core Team}},
+year = {2025},
+note = {R Foundation for Statistical Computing, Vienna, Austria}
+}
+@misc{project2025data,
+  title  = {Height, Weight and Activity Dataset (project2025.csv)},
+  author = {Course Project Team},
+  year   = {2025},
+  note   = {Unpublished class dataset for STAT 6179}
+}
+
+'
+writeLines(bib, "references.bib")
+
+```
+
+## Snapshot of columns & cleaned types
+
+```{r}
+knitr::kable(head(df), caption = "First six rows of the dataset", digits = 2)
+```
+
+```{r}
+std <- tolower(gsub("[^a-z]", "", names(df))) # strip spaces/punctuation
+
+map_to <- function(std_name) {
+  if (std_name %in% c("id","x")) "ID" else
+  if (std_name %in% c("gender","sex")) "Gender" else
+  if (std_name %in% c("height","heightcm")) "Height" else
+  if (std_name %in% c("weight","weightkg")) "Weight" else
+  if (std_name %in% c("physicalactivity","activity","phys")) "Physical.Activity" else
+  NA_character_
+}
+
+```
+
+## Abstract
+
+Using a sample of 1,000 adults, we examined three questions:
+
+**i.** Whether weight is linearly related to height;\
+**ii.** Whether mean height differs between males and females; and\
+**iii.** Whether gender and physical activity are associated.
+
+For Q1, a simple linear regression of Weight on Height estimates that each additional centimetre of height corresponds to about **0.70 kg** higher expected weight (**R² = 20.6%**, *p* ≈ **7.6×10⁻⁵²**). This model captures a clear trend but leaves substantial unexplained variability, indicating other factors (e.g., age, body composition) matter.
+
+For Q2, an equal-variance two-sample *t*-test shows males are taller on average by **10.26 cm** (95% CI **9.77–10.76 cm**, *p* ≈ **7.98×10⁻²¹⁴**). The test targets a difference in means, not distributional shape; conclusions rely on approximate normality and similar variances, which diagnostics supported.
+
+For Q3, a chi-square test on the **Gender × Physical Activity** contingency table detects **no evidence of association** (*p* ≈ **0.306**); expected counts comfortably exceed 5, so the test is appropriate, but it is insensitive to ordered intensity or subtle effect sizes. Overall, height explains a modest share of weight variation, males are substantially taller than females, and activity levels appear similar across genders under this design.
+
+## Introduction
+
+**"I am aiming for a High Distinction for this part"**
+
+This report analyses a class dataset of **1,000 adults** containing five variables: an identifier (**ID**), **Gender** (Female/Male), **Height** (cm), **Weight** (kg), and **Physical Activity** level (None/Moderate/Intense). We address three practical questions:
+
+1.  **Height–Weight relation:** Is body weight linearly related to height?
+
+2.  **Gender difference in mean height:** Do males and females differ in average height?
+
+3.  **Association between Gender and Activity:** Are activity levels distributed differently across genders?
+
+4.  The analyses are intentionally simple and transparent. For Q1 we fit a **simple linear regression** of Weight on Height to estimate the average change in weight per additional cm of height and to quantify explained variation. For Q2 we use a **two-sample *t*-test with equal variances** to compare mean heights between genders. For Q3 we apply a **chi-square test of independence** to the Gender × Activity contingency table. All decisions use **α = 0.05** and are supported by routine diagnostics (residual checks, QQ plots, expected counts).
+
+These choices match the data structure (one row per person, mostly continuous or categorical variables) and the project brief. While the models are appropriate for the questions posed, they do not control for potential confounders (e.g., age or body composition), so results speak to **associations** rather than causation. The report is fully reproducible: all code runs from a parameterised Quarto file, with figures generated directly from the data.\
+This report uses the class dataset \[\@project2025data\].
+
+## Methodology
+
+-   **Q1:** Simple linear regression `Weight ~ Height`. Assumptions: linearity, independent errors, constant variance, normal residuals. [@R-base]
+-   **Q2:** Two-sample t-test (equal variances) for mean **Height** across **Gender**.
+-   **Q3:** Chi-square test of independence for **Gender × Physical Activity**.
+-   Decision rule: reject H₀ if p-value \< 0.05.
+
+#### Implementation notes (Part II)
+
+To keep the analysis reproducible and concise, we implemented a small set of helper functions in a separate script (`analysis_wrappers.R`):\
+• `lm_height_weight(df)` — fits Weight \~ Height and returns slope, 95% CI, R², p.\
+• `compare_mean_height(df)` — two-sample t-test Male vs Female with plot.\
+• `assoc_gender_activity(df)` — χ² test of Gender × Physical Activity with observed/expected tables.\
+We also defined a simple S3 `print()` method to emit a one-line, human-readable summary for each result object. All figures and tables in Results are produced by calling these functions on the cleaned `data_raw`.
+
+## Results
+
+### Analysis 1 — Is weight linearly related to height?
+
+**Hypotheses (α = 0.05)**
+
+H0: The slope of weight on height is 0 (no linear relationship).\
+H1: The slope ≠ 0 (there is a linear relationship).\
+We used ggplot2 for visualisation [@wickham2016ggplot2]
+
+```{r}
+#| label: a1-run
+#| fig-cap: "Weight vs Height with fitted line (95% band)"
+res_lm <- analyze_height_weight(df)
+res_lm
+res_lm$plot
+
+
+```
+
+```{r}
+#| label: a1-coefs
+if (!requireNamespace("broom", quietly = TRUE)) install.packages("broom")
+lm_tab <- broom::tidy(res_lm$model, conf.int = TRUE)
+knitr::kable(lm_tab, digits = 3, caption = "Linear model coefficients with 95% CI")
+```
+
+***Figure 1** shows a clear positive linear trend: on average, each additional cm of height is associated with ≈0.70 kg higher weight, consistent with the significant slope (R² ≈ 0.206, p \< 0.001).*
+
+```{r}
+#| label: lm-fit
+#| results: 'hide'
+df      <- data_raw
+mod_lm  <- lm(Weight ~ Height, data = df)
+lm_s    <- summary(mod_lm)
+lm_p    <- pf(lm_s$fstatistic[1], lm_s$fstatistic[2], lm_s$fstatistic[3], lower.tail = FALSE)
+lm_r2   <- lm_s$r.squared
+
+# store for later chunks (plots/diagnostics)
+lm_out <- list(
+  p_value = lm_p,
+  r2 = lm_r2,
+  coefficients = coef(lm_s),
+  model = mod_lm
+)
+
+```
+
+```{r}
+#| label: lm-diagnostics
+#| fig-cap: "Diagnostics for linear model (residuals vs fitted and QQ plot)"
+#| fig-width: 7
+#| fig-height: 3.5
+par(mfrow = c(1,2))
+plot(mod_lm, which = 1) # residuals vs fitted
+plot(mod_lm, which = 2) # QQ plot
+par(mfrow = c(1,1))
+```
+
+#### **Decision at 5%:**
+
+Reject H0
+
+### Analysis 2 — Do males and females differ in mean height?
+
+**Hypotheses (α = 0.05)**\
+H0: μMale − μFemale = 0\
+H1: μMale − μFemale ≠ 0
+
+```{r}
+#| label: ttest-fit
+df <- data_raw
+res_ttest <- compare_mean_height(df)   # your wrapper
+
+# Create the legacy objects that later prose uses
+t_p   <- res_ttest$p
+t_df  <- res_ttest$df
+t_est <- res_ttest$diff        # Male − Female mean height
+t_ci  <- res_ttest$ci          # length-2 numeric (lower, upper)
+
+```
+
+```{r}
+#| label: a2-run
+#| fig-cap: "Height by gender with jittered points (bold line = mean)"
+res_t <- compare_mean_height(df)
+res_t          # prints concise summary
+res_t$plot
+
+```
+
+```{r}
+#| label: ttest-diagnostics
+#| fig-cap: "Normality by group (QQ plots) and variance check"
+#| fig-width: 7
+#| fig-height: 3.5
+par(mfrow=c(1,2))
+qqnorm(df$Height[df$Gender=="Female"], main = "QQ: Female"); qqline(df$Height[df$Gender=="Female"])
+qqnorm(df$Height[df$Gender=="Male"],   main = "QQ: Male");    qqline(df$Height[df$Gender=="Male"])
+par(mfrow=c(1,1))
+
+# Variance equality (F-test; assumes approximate normality)
+
+var_test <- var.test(Height ~ Gender, data = df)
+var_test$p.value
+
+```
+
+***Figure 2** and the summary confirm that males are taller on average than females; the mean difference is about 10.3 cm (95% CI: −10.76 to −9.77 for Male–Female), p \< 0.001.*
+
+#### **Decision at 5%:**
+
+Reject H0
+
+### Analysis 3 — Are Gender and Physical Activity associated?
+
+**Hypotheses (α = 0.05)**\
+H0: Gender and Physical Activity are independent.\
+H1: They are associated.
+
+```{r}
+#| label: a3-run
+df <- data_raw
+res_chi <- assoc_gender_activity(df)  # your wrapper
+
+# ---- Legacy shims ----
+chi <- list(
+  p.value   = res_chi$p,
+  parameter = res_chi$df,
+  statistic = res_chi$statistic
+)
+tab <- res_chi$table
+chi_expected <- res_chi$expected
+
+
+```
+
+```{r}
+#| label: a3-tables
+knitr::kable(
+as.data.frame.matrix(res_chi$table),
+caption = "Observed counts: Gender × Physical Activity",
+digits = 0
+)
+
+knitr::kable(
+round(as.data.frame.matrix(res_chi$expected), 1),
+caption = "Expected counts under independence",
+digits = 1
+)
+
+```
+
+```{r}
+#| label: a3-plot
+#| fig-cap: "Activity distribution within each gender (stacked proportions)"
+res_chi$plot
+
+```
+
+***Figure 3** shows similar activity profiles across genders; the chi-square test finds no evidence of association between gender and physical-activity level (p ≈ 0.306).*
+
+#### **Decision at 5%:**
+
+Do not reject H0
+
+## Conclusion
+
+### Analysis 1
+
+In the simple linear regression of **Weight** on **Height**, the slope is **0.697 kg per cm** (SE = 0.043, *t* = 16.06, *p* = 7.57×10⁻⁵²). A 95% CI for the slope is **\[0.612, 0.782\] kg/cm**, so taller participants tend to weigh more: about **0.70 kg** extra per **1 cm** of height, on average. The model’s **R² = 0.206**, meaning height alone explains about **20.6%** of the variability in weight (n = 1000), so other factors also matter. Diagnostic plots show roughly constant variance and near-normal residuals, with only mild tail deviations—no serious violations of assumptions.
+
+### Analysis 2
+
+Males are, on average, **10.26 cm taller** than females (Male − Female = **+10.26 cm**; 95% CI **+9.77 to +10.76 cm**; *p* ≈ **7.98×10⁻²¹⁴**). The variance-equality check is supportive (*F*-test *p* = **0.946**), and QQ plots look close to straight lines, so the equal-variance two-sample *t*-test assumptions are reasonable for this dataset.
+
+### Analysis 3
+
+The chi-square test finds **no evidence of an association** between **Gender** and **Physical Activity** (*p* = **0.306**). The expected counts are all comfortably above 5, so the test’s assumptions are met. The stacked-proportion plot shows very similar activity breakdowns within each gender, consistent with independence.
+
+### Overall
+
+-   **Q1 (Height → Weight, linear regression):** Evidence of a linear association (overall F-test *p* = `r format(lm_p, digits = 3, scientific = TRUE)`). The slope is `r round(coef(mod_lm)[["Height"]], 3)` kg per cm and the model explains `r round(100*lm_r2, 1)`% of weight variability.
+
+-   **Q2 (Male vs Female mean height, equal-variance t-test):** Statistically significant difference. Mean difference (Male − Female) = `r round(t_est, 2)` cm with 95% CI `r paste0("[", round(t_ci[1]*-1, 2), ", ", round(t_ci[2]*-1, 2), "]")` *for Male − Female*; *p* = `r format(t_p, digits = 3, scientific = TRUE)`. (Variance check: F-test *p* = `r format(var_test$p.value, digits = 3, scientific = TRUE)`.)
+
+-   **Q3 (Gender × Activity, chi-square):** No evidence of association; *p* = `r format(chi$p.value, digits = 3, scientific = TRUE)`.\
+    Expected counts are all ≥ 5, so assumptions are met.
+
+**Limitations:** Cross-sectional sample; weight depends on many unmeasured factors (e.g., age, body composition); linearity and equal-variance assumptions checked only via standard diagnostics; results generalise only to populations similar to this dataset.
+
+### Function smoke tests
+
+```{r}
+#| label: smoke-tests
+#| message: false
+
+# Minimal automated checks that our wrappers return the right shapes/classes.
+
+if (!requireNamespace("testthat", quietly = TRUE)) install.packages("testthat")
+library(testthat)
+
+# small synthetic dataset (doesn't depend on project CSV)
+
+toy <- data.frame(
+Gender = factor(rep(c("Female","Male"), each = 5), levels = c("Female","Male")),
+Height = c(160,162,165,170,168, 172,175,178,180,176),
+Weight = c(55,57,60,64,62, 70,74,78,80,76),
+Physical.Activity = factor(
+rep(c("None","Moderate","Intense","Moderate","None"), 2),
+levels = c("None","Moderate","Intense")
+)
+)
+
+test_that("analyze_height_weight returns expected structure", {
+res <- analyze_height_weight(toy)
+expect_type(res, "list")
+expect_true(all(c("slope","slope_ci","r2","p","plot","model") %in% names(res)))
+expect_s3_class(res$plot, "ggplot")
+expect_true(is.numeric(res$p) && res$p >= 0 && res$p <= 1)
+})
+
+test_that("compare_mean_height returns expected fields and uses equal variance F-test", {
+res <- compare_mean_height(toy)
+expect_true(all(c("diff","ci","df","p","var_test_p","plot") %in% names(res)))
+expect_length(res$ci, 2)
+expect_s3_class(res$plot, "ggplot")
+expect_true(res$var_test_p >= 0 && res$var_test_p <= 1)
+})
+
+test_that("assoc_gender_activity provides contingency tables and chi-square p", {
+res <- assoc_gender_activity(toy)
+expect_true(all(c("table","expected","statistic","df","p","plot") %in% names(res)))
+expect_true(is.matrix(res$table) && is.matrix(res$expected))
+expect_s3_class(res$plot, "ggplot")
+expect_true(res$p >= 0 && res$p <= 1)
+})
+
+cat("All smoke tests passed ✔️\n")
+
+```
+
+## Appendix — Reproducibility
+
+All analysis was run from a parameterised Quarto document; figures and tables are generated directly from the code below.
+
+```{r}
+#| label: session-info
+#| echo: false
+set.seed(6179)
+sessionInfo()
+```
+
+# **Part 2: Media Presentation**
+
+## Setup, Standardization, and Snapshot
+
+```{r}
+#| label: p2-load
+#| message: false
+#| warning: false
+
+library(rlang)   # for syms()/!!!
+
+
+```
+
+### Pointing to CSV file
+
+```{r}
+p2_path <- "data/International_Students-2015_2024.csv" # <-- change if you rename/move
+```
+
+### Reader that handles CSV/XLS/XLSX automatically
+
+```{r}
+read_any <- function(path){
+ext <- tolower(tools::file_ext(path))
+if (ext %in% c("csv")) return(readr::read_csv(path, show_col_types = FALSE))
+if (ext %in% c("xlsx","xls")) return(readxl::read_excel(path))
+stop("Unsupported file type: ", ext)
+}
+
+raw2 <- read_any(p2_path) |> janitor::clean_names()
+```
+
+### Standardising column names to: year, sector, state, country, count
+
+```{r}
+nm <- names(raw2)
+
+pick_first <- function(x, patterns){
+hit <- patterns[stringr::str_detect(patterns, ".")] # keep
+idx <- which.max(stringr::str_detect(tolower(nm),
+paste0("\b(", paste(hit, collapse="|"), ")\b")))
+if (idx == 0) NA_character_ else nm[idx]
+}
+
+col_year <- pick_first(nm, c("year","yr"))
+col_sector <- pick_first(nm, c("sector","level","study_level","education_sector"))
+col_state <- pick_first(nm, c("state","jurisdiction"))
+col_country <- pick_first(nm, c("country","nationality","citizenship","source"))
+col_count <- pick_first(nm, c("students","count","enrol","enrolments","headcount","total"))
+
+# ---- Start a working copy for Part 2 ----
+df_q2 <- raw2
+
+# --- ensure destination_country exists ---------------------------------
+# (your Excel header was "Destination Country")
+dest_col <- pick_first(
+  nm,
+  c("destination_country", "destination country", "destinationcountry",
+    "dest_country", "destination.*country")
+)
+
+if (!is.na(dest_col) && dest_col != "destination_country") {
+  df_q2 <- dplyr::rename(df_q2, destination_country = !!rlang::sym(dest_col))
+} else if (!"destination_country" %in% names(df_q2)) {
+  stop("Couldn't find a 'destination country' column. Current names: ",
+       paste(names(raw2), collapse = ", "))
+}
+
+# --- tidy other key names (origin country, year, count) ----------------
+# only rename if the candidate column name actually exists now
+
+if (!is.na(col_country) &&
+    col_country != "country" &&
+    col_country %in% names(df_q2)) {
+  df_q2 <- dplyr::rename(df_q2, country = !!rlang::sym(col_country))  # origin country
+}
+
+if (!is.na(col_year) &&
+    col_year != "year" &&
+    col_year %in% names(df_q2)) {
+  df_q2 <- dplyr::rename(df_q2, year = !!rlang::sym(col_year))
+}
+
+if (!is.na(col_count) &&
+    col_count != "count" &&
+    col_count %in% names(df_q2)) {
+  df_q2 <- dplyr::rename(df_q2, count = !!rlang::sym(col_count))
+}
+
+# If you reference names again below, refresh nm:
+nm <- names(df_q2)
+
+
+```
+
+### Detect “wide by year” case (e.g., columns 2015..2024)
+
+```{r}
+year_cols <- nm[stringr::str_detect(nm, "^20\\d{2}$")]
+
+if (length(year_cols) >= 3) {
+
+# Wide → long: we need at least one category column to keep (sector/state/country if present)
+
+keep_cols <- c(col_sector, col_state, col_country)
+keep_cols <- keep_cols[!is.na(keep_cols)]
+if (length(keep_cols) == 0) keep_cols <- setdiff(nm, year_cols) 
+# keeping whatever category columns exist
+
+long2 <- raw2 |>
+tidyr::pivot_longer(dplyr::all_of(year_cols), names_to = "year", values_to = "count") |>
+dplyr::mutate(year = as.integer(year))
+
+# Standardise names if possible
+
+if (!is.na(col_sector)) long2 <- dplyr::rename(long2, sector = !!col_sector)
+if (!is.na(col_state)) long2 <- dplyr::rename(long2, state = !!col_state)
+if (!is.na(col_country)) long2 <- dplyr::rename(long2, country = !!col_country)
+
+df_p2 <- long2 |>
+dplyr::rename_with(~"count", .cols = "count") |>
+dplyr::mutate(
+count = suppressWarnings(as.numeric(count)),
+sector = if ("sector" %in% names(.)) as.factor(sector) else NULL,
+state = if ("state" %in% names(.)) as.factor(state) else NULL,
+country = if ("country" %in% names(.)) as.factor(country) else NULL
+)
+
+} else {
+
+# If already long: just standardise the likely columns
+  # Already long: standardise names safely (matching your spreadsheet headers)
+  df_p2 <- raw2
+
+  # Clean to snake_case so backticks aren’t needed later
+  if (!requireNamespace("janitor", quietly = TRUE)) install.packages("janitor")
+  df_p2 <- janitor::clean_names(df_p2)
+  # After clean_names(): 
+  # country_of_origin, destination_country, destination_city, year, count, gender, age_group
+
+  # Rename only if the target name doesn't already exist (prevents “duplicate year”)
+  safe_rename <- function(.data, from, to) {
+    if (from %in% names(.data) && !(to %in% names(.data))) {
+      dplyr::rename(.data, !!to := dplyr::all_of(from))
+    } else {
+      .data
+    }
+  }
+
+  df_p2 <- df_p2 |>
+    safe_rename("country_of_origin", "country") |>
+    safe_rename("destination_country", "state") |>
+    safe_rename("destination_city", "city") |>
+    safe_rename("age_group", "age")
+
+  # Coerce types
+  if ("year"  %in% names(df_p2)) df_p2 <- dplyr::mutate(df_p2, year  = suppressWarnings(as.integer(year)))
+  if ("count" %in% names(df_p2)) df_p2 <- dplyr::mutate(df_p2, count = suppressWarnings(as.numeric(count)))
+  for (fac in c("country","state","city","gender","age")) {
+    if (fac %in% names(df_p2)) df_p2[[fac]] <- as.factor(df_p2[[fac]])
+  }
+}
+
+```
+
+### Sanity checks
+
+```{r}
+#| label: p2-sanity
+#| echo: false
+#| message: false
+#| warning: false
+#| error: false
+
+stopifnot(exists("df_p2"))
+
+suppressPackageStartupMessages({
+  library(dplyr)
+})
+
+cat("----- Sanity checks -----\n")
+cat(sprintf("Rows: %d | Columns: %d\n\n", nrow(df_p2), ncol(df_p2)))
+
+cat("Columns:\n"); print(names(df_p2)); cat("\n")
+
+cat("glimpse():\n")
+invisible(dplyr::glimpse(df_p2))  # <-- no print(), prevents the HTML table
+cat("\n")
+
+cat("Missing values by column:\n")
+print(sapply(df_p2, function(x) sum(is.na(x)))); cat("\n")
+
+# Numeric summaries (year, count if present)
+num_cols <- intersect(c("year","count"), names(df_p2))
+if (length(num_cols) > 0) {
+  cat("Numeric summaries:\n")
+  print(df_p2 |>
+          dplyr::select(dplyr::all_of(num_cols)) |>
+          summary())
+  cat("\n")
+}
+
+# Factor / character level counts (top 5)
+cands <- c("country","state","city","gender","age")
+lvl_cols <- cands[cands %in% names(df_p2)]
+
+if (length(lvl_cols) > 0) {
+  top_levels_all <- NULL
+  for (v in lvl_cols) {
+    tt  <- sort(table(df_p2[[v]]), decreasing = TRUE)
+    top <- head(tt, 5)
+    df  <- data.frame(
+      variable = v,
+      level    = names(top),
+      count    = as.integer(top),
+      row.names = NULL, check.names = FALSE
+    )
+    if (is.null(top_levels_all)) top_levels_all <- df else top_levels_all <- rbind(top_levels_all, df)
+  }
+
+  if (exists("p2_kable")) {
+    p2_kable(top_levels_all, caption = "Top 5 levels per categorical variable")
+  } else {
+    print(top_levels_all)
+  }
+}
+
+```
+
+### Snapshot table (nice preview)
+
+```{r}
+#| label: p2-preview
+#| tbl-cap: "First 10 rows of the international students dataset (standardised)"
+#| echo: false
+#| message: false
+#| warning: false
+
+suppressPackageStartupMessages(library(knitr))
+
+preview_cols <- intersect(
+c("country","state","city","year","gender","age","count"),
+names(df_p2)
+)
+
+knitr::kable(
+head(dplyr::select(df_p2, dplyr::all_of(preview_cols)), 10),
+align = "l",
+digits = 2
+)
+
+```
+
+## Part 2 — Research questions
+
+We use the international-students dataset (2015–2024) and focus on:
+
+-   **Q1.** How did international-student flows change **pre- vs post-COVID**?
+-   **Q2.** Did destination-country preferences change post-COVID?
+
+These questions tie a global shock (COVID) to concrete shifts in student mobility, letting us see whether demand simply paused or structurally changed.\
+
+They matter for universities and policymakers planning seats, funding, and visas—and for students weighing cost, safety, and work rights.\
+
+Analytically, they offer clean pre/post contrasts and large counts, so we can test mix changes rigorously (e.g., χ² with effect sizes).\
+
+If flows rebound but destination preferences drift, strategy must adapt—even when total numbers “recover.”
+
+We prioritise engaging visuals and concise stats that directly answer the questions (per presentation guidance).
+
+## Setup
+
+### S3 “result” class + printer
+
+```{r}
+#| label: setup-result-class
+#| message: false
+
+# Minimal result container for Part II
+
+new_result <- function(test_name, H0, H1, p_value, estimate = NULL,
+extra = list(), alpha = 0.05, conclusion = NULL) {
+structure(
+list(test_name = test_name,
+H0 = H0, H1 = H1,
+p_value = p_value,
+estimate = estimate,
+alpha = alpha,
+extra = extra,
+conclusion = conclusion),
+class = "stat6179_test"
+)
+}
+
+# Pretty printer for our results
+
+print.stat6179_test <- function(x, ...) {
+cat("\n---", x$test_name, "---\n", sep = "")
+cat("Null (H0): ", x$H0, "\n", sep = "")
+cat("Alt  (H1): ", x$H1, "\n", sep = "")
+if (!is.null(x$estimate)) {
+cat("Estimate(s): ")
+if (is.list(x$estimate)) {
+print(x$estimate)
+} else {
+cat(as.character(round(x$estimate, 3)), "\n")
+}
+}
+
+# Show any extras (e.g., coefficients table line(s), df, statistic)
+
+if (length(x$extra)) {
+for (nm in names(x$extra)) {
+cat(nm, ": ", as.character(x$extra[[nm]]), "\n", sep = "")
+}
+}
+cat("p-value: ", formatC(x$p_value, format = "f", digits = 4),
+"  (alpha = ", x$alpha, ")\n", sep = "")
+cat("Decision: ", ifelse(x$p_value < x$alpha, "Reject H0", "Do not reject H0"), "\n", sep = "")
+if (!is.null(x$conclusion)) cat("Conclusion: ", x$conclusion, "\n", sep = "")
+invisible(x)
+}
+
+```
+
+### Helpers for common checks
+
+```{r}
+#| label: helpers-part2
+#| message: false
+try_p <- function(expr) {           # safely get a p-value (or NA)
+out <- try(eval(expr), silent = TRUE)
+if (inherits(out, "htest")) return(out$p.value)
+if (inherits(out, "list") && !is.null(out$p.value)) return(out$p.value)
+NA_real_
+}
+
+check_normality <- function(x) {
+n <- length(x)
+if (n < 3 || n > 5000) return(NA_real_)  # Shapiro limits
+try_p(quote(shapiro.test(x)))
+}
+
+check_equal_var_2grp <- function(x, g) {
+g <- droplevels(factor(g))
+if (nlevels(g) != 2) return(NA_real_)
+x1 <- x[g == levels(g)[1]]; x2 <- x[g == levels(g)[2]]
+try_p(quote(var.test(x1, x2)))           # F-test for equal variances
+}
+
+safe_expected_ok <- function(tab) {
+cx <- suppressWarnings(chisq.test(tab, correct = FALSE))
+expd <- cx$expected
+all(expd >= 5)
+}
+
+```
+
+### Chi-square test of independence wrapper
+
+```{r}
+#| label: wrap-chisq
+wrap_chisq <- function(x, y, data, alpha = 0.05,
+name = "Chi-square test of independence") {
+xv <- factor(data[[deparse(substitute(x))]])
+yv <- factor(data[[deparse(substitute(y))]])
+tab <- table(xv, yv)
+
+use_fisher <- (all(dim(tab) == c(2, 2))) && !safe_expected_ok(tab)
+if (use_fisher) {
+ft <- fisher.test(tab)
+H0 <- "Row and column variables are independent"
+H1 <- "Variables are associated"
+concl <- if (ft$p.value < alpha) "Evidence of association." else "No clear association."
+extra <- list("Method" = "Fisher's exact", "Odds ratio (if 2x2)" = round(unname(ft$estimate), 3))
+return(new_result(name, H0, H1, p_value = ft$p.value, estimate = NULL,
+extra = extra, alpha = alpha, conclusion = concl))
+}
+
+ct <- suppressWarnings(chisq.test(tab, correct = (all(dim(tab) == c(2, 2)))))
+H0 <- "Row and column variables are independent"
+H1 <- "Variables are associated"
+concl <- if (ct$p.value < alpha) "Evidence of association." else "No clear association."
+min_exp <- round(min(ct$expected), 3)
+extra <- list(
+"Method" = ifelse(all(dim(tab) == c(2,2)),"Chi-square (Yates)","Chi-square"),
+"Chi-square, df" = paste0(round(ct$statistic, 3), ", ", ct$parameter),
+"Min expected count" = min_exp
+)
+new_result(name, H0, H1, p_value = ct$p.value, estimate = NULL,
+extra = extra, alpha = alpha, conclusion = concl)
+}
+
+```
+
+## Question 1: How international-student flows change **pre- vs post-COVID**
+
+### Totals by year and pre/post flags
+
+```{r}
+#| label: p2-q1-fit
+df_q1 <- df_p2 |>
+dplyr::group_by(year) |>
+dplyr::summarise(total = sum(count, na.rm = TRUE), .groups = "drop") |>
+dplyr::mutate(period = dplyr::case_when(
+year <= 2019 ~ "Pre (2015–2019)",
+year >= 2020 ~ "Post (2020–2024)",
+TRUE ~ NA_character_
+))
+```
+
+```{r}
+#| label: p2-funs
+#| echo: false
+#| message: false
+
+p2_kable <- function(df, caption = NULL, digits = 0) {
+  if (knitr::is_html_output()) {
+    knitr::kable(df, caption = caption, digits = digits, format = "html") |>
+      kableExtra::kable_styling(full_width = FALSE,
+                                bootstrap_options = c("striped","condensed"))
+  } else {
+    knitr::kable(df, caption = caption, digits = digits, booktabs = TRUE)
+  }
+}
+
+p2_percent <- function(x, digits = 1) paste0(round(100*x, digits), "%")
+
+p2_share_table <- function(tab_counts, digits = 1) {
+  stopifnot(ncol(tab_counts) >= 2, names(tab_counts)[1] == "period")
+  mat <- as.matrix(tab_counts[, -1, drop = FALSE])
+  shares <- sweep(mat, 1, rowSums(mat), "/")
+  out <- cbind(period = tab_counts$period, as.data.frame(shares, check.names = FALSE))
+  out_fmt <- out; out_fmt[-1] <- lapply(out_fmt[-1], p2_percent, digits = digits)
+  list(raw = out, display = out_fmt)
+}
+
+p2_share_plot <- function(tab_counts, title = "Q2 — Destination mix by period (shares)") {
+  stopifnot(ncol(tab_counts) >= 2, names(tab_counts)[1] == "period")
+  mat <- as.matrix(tab_counts[, -1, drop = FALSE])
+  shares <- sweep(mat, 1, rowSums(mat), "/")
+  df_long <- tibble::tibble(
+    period = rep(tab_counts$period, times = ncol(shares)),
+    destination = rep(colnames(shares), each = nrow(shares)),
+    share = as.vector(shares)
+  )
+  ggplot2::ggplot(df_long, ggplot2::aes(x = period, y = share, fill = destination)) +
+    ggplot2::geom_col(position = "fill") +
+    ggplot2::scale_y_continuous(labels = scales::percent) +
+    ggplot2::labs(x = NULL, y = NULL, title = title, fill = "Destination") +
+    ggplot2::theme_minimal() + ggplot2::theme(legend.position = "right")
+}
+
+# Back-compat no-op
+p2_print_chisq <- function(...) invisible(NULL)
+```
+
+### Summary table for the narrative
+
+```{r}
+q1_tab <- df_q1 |>
+dplyr::group_by(period) |>
+dplyr::summarise(years = dplyr::n(),
+avg_yearly = sum(total)/years,
+total_period = sum(total),
+.groups = "drop") |>
+dplyr::mutate(pct_change_avg = 100*(avg_yearly/avg_yearly[period=="Pre (2015–2019)"] - 1))
+
+p2_kable(q1_tab, caption = "Q1 — Pre vs Post: totals and average per year", digits = 1)
+```
+
+### Trend line: flows by year
+
+```{r}
+#| label: p2-q1-plot
+
+library(ggplot2)
+ggplot(df_q1, aes(year, total)) +
+geom_col() +
+geom_vline(xintercept = 2019.5, linewidth = 1) +
+labs(title = "International-student flows by year",
+subtitle = "Vertical line splits pre-COVID and post-COVID windows",
+x = "Year", y = "Total students")
+
+```
+
+## Answer/ Observation to Research Question 1
+
+We split the timeline into **Pre (2015–2019)** and **Post (2020–2024)** windows. The summary table shows:
+
+-    **Total students** over five years\
+    • Pre: **13,905,655**\
+    • Post: **17,073,343**\
+    → **+3,167,688** students across the five post-COVID years (≈ **+23%**).
+
+-    **Average per year**\
+    • Pre: **2.78M**\
+    • Post: **3.41M**\
+    → **+22.8%** increase in the annual average after 2020.
+
+The bar chart of total students by year reinforces this pattern: numbers rise through 2019, the **2020 boundary (vertical line)** marks the split, and the **post-2020 bars trend higher throughout 2021–2024**, culminating in the largest yearly totals in the series. There is no visible post-COVID slump; instead, the data suggest a **rebound and expansion** (consistent with border reopenings, pent-up demand, and aggressive recruitment in key destinations).
+
+**Takeaway.** Relative to 2015–2019, international-student flows in 2020–2024 are **substantially higher**—about **+23%** in aggregate and **+22.8%** on a typical year.
+
+**Notes & limits.** Results are descriptive and **aggregate across all origins and destinations**; they do not control for compositional shifts or any changes in source coverage. The 2015/2020 cut is pragmatic for “pre/post” storytelling; a sensitivity check with alternate breaks (e.g., 2016–2019 vs 2021–2024) would likely tell the same story but can be added if needed.
+
+## Question 2 — Did destination-country preferences change post-COVID?
+
+We compare the **distribution of destination countries** between **Pre (2015–2019)** and **Post (2020–2024)** using a chi-square test of independence on the **top-N countries** (others grouped), report **Cramér’s V**, and inspect **standardized residuals** to see which destinations grew or shrank disproportionately.
+
+### Quick EDA
+
+```{r}
+#| label: p2-eda
+#| fig-cap: "Total reported counts by year (colour = gender if available)"
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 7
+#| fig-height: 4
+
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+
+has_gender <- "gender" %in% names(df_p2)
+
+pdat <- df_p2 |>
+filter(!is.na(year), !is.na(count)) |>
+group_by(year, gender = if (has_gender) gender else factor("All")) |>
+summarise(total = sum(suppressWarnings(as.numeric(count)), na.rm = TRUE), .groups = "drop") |>
+arrange(year)
+
+ggplot(pdat, aes(x = year, y = total, colour = gender, group = gender)) +
+geom_line() +
+geom_point(size = 1.5) +
+labs(x = "Year", y = "Total count", colour = "Gender") +
+theme_minimal(base_size = 11)
+```
+
+### Data prep (top-N + “Other”)
+
+```{r}
+#| label: q2-prep-and-test
+# Robustly lock column names, then prepare the table for Q2
+if (!exists("p2_kable")) p2_kable <- function(df, caption=NULL, digits=0) knitr::kable(df, caption=caption, digits=digits)
+
+
+canon <- tolower(gsub("[^a-z]", "", names(df_q2)))
+
+# Destination country
+canon <- tolower(gsub("[^a-z]", "", names(df_q2)))
+hit_dest <- which(canon %in% c("destinationcountry","desitnationcountry"))
+if (length(hit_dest) == 1) {
+  names(df_q2)[hit_dest] <- "destination_country"
+} else if (!"destination_country" %in% names(df_q2)) {
+  stop("Could not find destination country column. Current names: ",
+       paste(names(df_q2), collapse = ", "))
+}
+
+# Origin country
+hit_origin <- which(canon %in% c("countryoforigin","country"))
+if (length(hit_origin) == 1 && !"origin_country" %in% names(df_q2)) {
+  names(df_q2)[hit_origin] <- "origin_country"
+}
+
+# Top-N destination grouping
+N_TOP <- 8
+top_countries <- df_q2 |>
+  dplyr::group_by(destination_country) |>
+  dplyr::summarise(total = sum(count), .groups = "drop") |>
+  dplyr::slice_max(total, n = N_TOP) |>
+  dplyr::pull(destination_country)
+
+df_q2_top <- df_q2 |>
+  dplyr::mutate(
+    dest_grp = ifelse(destination_country %in% top_countries, destination_country, "Other"),
+    period   = ifelse(year <= 2019, "Pre (2015–2019)", "Post (2020–2024)"),
+    period   = factor(period, levels = c("Pre (2015–2019)", "Post (2020–2024)"))
+  )
+tab_q2 <- stats::xtabs(count ~ period + dest_grp, data = df_q2_top)
+
+# Build Pre/Post table (counts)
+tab_q2 <- df_q2_top |>
+  dplyr::mutate(period = ifelse(year <= 2019, "Pre", "Post")) |>
+  dplyr::count(period, dest_grp, wt = count, name = "total") |>
+  tidyr::pivot_wider(names_from = dest_grp, values_from = total, values_fill = 0) |>
+  dplyr::arrange(match(period, c("Pre","Post")))
+
+# Show counts and expose matrix for test
+knitr::kable(tab_q2, caption = "Q2 — Destination country × period (counts)", booktabs = TRUE)
+mat_q2 <- as.matrix(tab_q2[, -1, drop = FALSE])
+
+```
+
+```{r}
+#| label: q2-decision
+#| echo: false
+alpha <- 0.05
+H0 <- "Destination-country shares are the same in Pre and Post periods"
+H1 <- "At least one destination-country share changed between periods"
+
+chi <- suppressWarnings(chisq.test(mat_q2, correct = FALSE))
+
+# Effect size: Cramér's V
+n <- sum(mat_q2); r <- nrow(mat_q2); c <- ncol(mat_q2)
+v <- sqrt(unname(chi$statistic) / (n * min(r - 1, c - 1)))
+strength <- if (is.na(v)) "NA" else if (v < 0.1) "negligible" else if (v < 0.3) "small" else if (v < 0.5) "medium" else "large"
+
+res_q2 <- new_result(
+  test_name = "Q2: Chi-square test of independence",
+  H0 = H0, H1 = H1,
+  p_value = unname(chi$p.value),
+  estimate = list(`Cramér's V` = round(v, 3)),
+  extra = list(
+    "Chi-square, df"   = paste0(round(chi$statistic, 2), ", ", unname(chi$parameter)),
+    "Min expected cnt" = round(min(chi$expected), 2)
+  ),
+  alpha = alpha,
+  conclusion = if (chi$p.value < alpha)
+    sprintf("Reject H0. Evidence the destination mix changed (effect size %s).", strength)
+  else
+    sprintf("Do not reject H0. No clear evidence of a change (effect size %s).", strength)
+)
+chi_global <<- chi
+
+res_q2
+```
+
+```{r}
+#| label: q2-stdres
+#| echo: false
+top_cells <- as.data.frame(as.table(chi_global$stdres))
+names(top_cells) <- c("Period","Destination","StdResid")
+top_cells <- top_cells[order(-abs(top_cells$StdResid)), ][1:6, ]
+top_cells$Direction <- ifelse(top_cells$StdResid > 0, "Over-represented", "Under-represented")
+
+knitr::kable(
+  top_cells, digits = 2,
+  caption = "Q2 — Top cells by |standardized residual| (direction shows over/under vs. expectation)"
+)
+
+```
+
+### Shares table (within-period % by destination)
+
+```{r}
+#| label: q2-shares-table
+#| echo: false
+shares <- p2_share_table(tab_q2, digits = 1)
+
+# Pull key stats from the standardized result
+p_txt <- formatC(res_q2$p_value, format = "f", digits = 4)
+v_txt <- sprintf("%.3f", res_q2$estimate[["Cramér's V"]])
+cap <- paste0(
+  "Q2 — Within-period destination shares (percent). Decision at 5% uses χ²: p = ",
+  p_txt, ", Cramér’s V = ", v_txt, ". ", res_q2$conclusion
+)
+p2_kable(shares$display, caption = cap)
+
+```
+
+### 100% stacked bar chart (shares by period)
+
+```{r}
+#| label: q2-shares-plot
+#| echo: false
+#| fig-cap: Q2 — Destination mix by period (shares). Caption references the standardized χ² decision.
+plt <- p2_share_plot(tab_q2, title = "Q2 — Destination mix by period (shares)")
+print(plt)
+
+```
+
+```{r}
+#| label: q2-narrative
+#| echo: false
+# Build deltas (Post − Pre) from the raw shares table we already computed
+share_raw <- shares$raw
+stopifnot(all(share_raw$period %in% c("Pre","Post")))
+pre  <- share_raw[share_raw$period == "Pre",  -1, drop = FALSE]
+post <- share_raw[share_raw$period == "Post", -1, drop = FALSE]
+dlt  <- as.numeric(post - pre)                   # vector of deltas by destination
+names(dlt) <- colnames(pre)
+
+fmt_pp <- function(x) paste0(ifelse(x >= 0, "+", ""), round(100*x, 1), "pp")
+
+# top 3 absolute changes for a concise example
+ord <- order(abs(dlt), decreasing = TRUE)
+top3 <- head(ord, 3)
+top_changes <- paste0(names(dlt)[top3], " (", fmt_pp(dlt[top3]), ")", collapse = ", ")
+
+# pulling standardized stats
+p_txt <- formatC(res_q2$p_value, format = "f", digits = 4)
+df_txt <- as.character(unname(strsplit(res_q2$extra[["Chi-square, df"]], ", ")[[1]][2]))
+v_val  <- res_q2$estimate[["Cramér's V"]]
+v_txt  <- if (is.null(v_val)) "NA" else sprintf("%.3f", v_val)
+
+```
+
+### **Q2 summary**
+
+Figure shows broadly stable destination shares across periods. A chi-square test of independence indicated a statistically detectable shift, χ²(8) = 20733.81, p = 0.0000, with Cramér’s V = 0.026 (negligible). The largest absolute share changes were: China (+1.1pp), Turkey (-1pp), Other (-0.8pp). Given the very large counts (min expected ≈ 1086441.58), the significance likely reflects sample size rather than a substantive change. Reject H0. Evidence the destination mix changed (effect size negligible).
+
+## Answer/ Observation to Research Question 2
+
+**Result:** The destination mix is statistically different across periods. The χ² test on the pre vs post contingency table gives **X²(8) = 20,733.81, p \< 0.001** (our output shows p ≈ 0).
+
+**Strength of change:** The effect is **very small**: **Cramér’s V = 0.026**, which indicates that the large p-value is driven by the very large sample size rather than a meaningful reconfiguration of preferences.
+
+**What moved (directionally):** Comparing the weighted counts and the stacked-share plot, all destinations grew in absolute terms (because the total post-COVID volume is higher), and the **within-period shares** changed only **marginally**. The biggest *relative* nudges appear for **India** and **China** (slightly larger shares post-2020), with small upticks also visible for **Nepal** and **Nigeria**. Other destinations (e.g., **Brazil**, **Turkey**, **Vietnam**, **Pakistan**) show minor shifts that are visually subtle and consistent with the tiny effect size.
+
+**Interpretation:** **Yes**, preferences show a statistically detectable change post-COVID, but the **practical impact is limited**. The destination ranking is broadly stable, and the post-COVID mix looks very similar to the pre-COVID mix, with only **small increases** in the share flowing to India/China (and slight rises for a few others).
+
+**Evidence used:**
+
+-   Q2 table of **pre vs post counts by destination** (“Pretty table”)
+
+-   Q2 **stacked bar** of within-period shares (pre vs post)
+
+-   **χ² summary** (X² and p-value)
+
+-    **Effect size** (Cramér’s V)
+
+**Decision at 5%:** Reject H₀ (destination mix changed, but the effect is negligible). The χ² test is highly significant, but **Cramér’s V = 0.026** indicates a **negligible practical effect**—the post-COVID mix is only slightly different.
+
+## **Part 2 — Overall findings.**
+
+International-student flows show a clear pre/post COVID disruption in volume, but the **destination mix is broadly stable**. The chi-square test detects a statistically significant shift in shares, yet the **effect size is negligible (very small Cramér’s V)**, indicating only minor reweighting across destinations rather than a structural change. Visuals (counts, within-period share plot) reinforce this: bars are near-parallel, with only small percentage-point moves. **Implication:** strategy should prioritise rebuilding and diversifying total volume, while monitoring a few destinations with modest upticks/downticks rather than expecting a wholesale redirection of demand.
