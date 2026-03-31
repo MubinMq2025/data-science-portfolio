@@ -1,0 +1,448 @@
+---
+title: "Simulation-and-MLE-Statistical-Inference"
+author: "KAZI ABDUL MUBIN"
+date: "17-Oct-2025"
+format: pdf
+editor: visual
+toc: true
+number-sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+
+```
+
+# Introduction
+
+We study simulation-based inference for modelling completion times in a security-training setting. Three estimators — **mean**, **median**, and **10% trimmed mean** — are evaluated under (i) a clean exponential model and (ii) a contaminated model with extreme values due to logging errors. Using 1,000 Monte Carlo replications of size 250, we quantify **Bias**, **Monte Carlo SD (MCSD)**, and **Mean Squared Error (MSE)** and provide brief, evidence-based answers to the reflection questions.
+
+# Section 1 — Estimating Typical Completion Time for Security Training
+
+## Part A: Natural Variation in Completion Times
+
+### Scenario
+
+Completion times follow $X\sim \mathrm{Exp}(\lambda)$ with $\lambda=1$. We compare the **sample mean**, **median**, and **10% trimmed mean** as summaries of a typical completion time when the model holds.
+
+### Task 1 — Generate 1,000 samples ($n=250$) from $\mathrm{Exp}(1)$
+
+```{r}
+set.seed(6191)
+library(dplyr); library(tibble); library(knitr)
+
+lambda    <- 1
+true_mean <- 1/lambda
+n         <- 250
+n_sims    <- 1000
+
+samples_A <- replicate(n_sims, rexp(n, rate = lambda), simplify = FALSE)
+```
+
+\newpage
+
+### Task 2 — For each sample, compute mean, median, and 10% trimmed mean
+
+```{r}
+est_stats <- function(x) {
+  c(
+    mean   = mean(x),
+    median = median(x),
+    trimmed_mean = mean(x, trim = 0.10)
+  )
+}
+
+estimates_A <- do.call(rbind, lapply(samples_A, est_stats)) |> as.data.frame()
+head(estimates_A)
+
+```
+
+### Task 3 — Compute Bias, MCSD, and MSE
+
+Definitions:
+
+$$
+\begin{aligned}
+\text{Bias} &= \overline{\hat{\theta}} - \theta_0,\\
+\text{MCSD} &= \operatorname{sd}(\hat{\theta}),\\
+\text{MSE}  &= \mathbb{E}\!\left[(\hat{\theta}-\theta_0)^2\right].
+\end{aligned}
+$$
+
+```{r}
+summarise_mc <- function(df, theta0) {
+  sapply(df, function(z) c(
+    Bias = mean(z) - theta0,
+    MCSD = sd(z),
+    MSE  = mean((z - theta0)^2)
+  )) |>
+    t() |>
+    as.data.frame() |>
+    tibble::rownames_to_column("Estimator")
+}
+
+est_stats <- function(x) {
+  c(
+    mean   = mean(x),
+    median = median(x),
+    trimmed_mean = mean(x, trim = 0.10)
+  )
+}
+
+mc_summary_A <- summarise_mc(estimates_A, true_mean)
+
+knitr::kable(
+  mc_summary_A,
+  digits = 4,
+  caption = "Part A — Bias, MCSD and MSE (Exp(1), n = 250, 1,000 simulations)"
+)
+
+```
+
+### Task 4 — Summary Table
+
+| Estimator | Bias (≈) | MCSD (≈) | MSE (≈) | Interpretation Summary |
+|:--------------|:-------------:|:-------------:|:-------------:|:--------------|
+| **Mean** | 0.000 | 0.062 | 0.0038 | Unbiased and most efficient under the model assumptions |
+| **Median** | −0.305 | 0.061 | 0.0967 | Negatively biased because the exponential median (0.693) is below the mean |
+| **Trimmed Mean (10%)** | −0.168 | 0.055 | 0.0312 | Small bias with slightly lower variability than the mean |
+
+**Conclusion:**\
+In clean exponential data, the **sample mean** is unbiased and has the smallest MSE, confirming it is the most efficient estimator of the true mean. Both the **median** and **trimmed mean** exhibit negative bias but are slightly more stable in variability. These results illustrate natural sampling variation and relative estimator efficiency in repeated sampling.
+
+## Part B: Logging Error Introduces Outliers
+
+### Scenario
+
+To mimic recording errors, each sample contains 90% from $\mathrm{Exp}(1)$ and 10% from $\mathrm{Exp}(0.02)$ (mean $=50$), keeping $n=250$ and 1,000 replications.
+
+### Task 1 — Generate 1,000 contaminated samples
+
+```{r}
+set.seed(6192)
+
+rmixture <- function(n) {
+  u <- runif(n)
+  ifelse(u <= 0.9, rexp(n, rate = 1), rexp(n, rate = 0.02))
+}
+
+samples_B <- replicate(n_sims, rmixture(n), simplify = FALSE)
+```
+
+### Task 2
+
+### Compute estimators for each contaminated sample
+
+```{r}
+estimates_B <- do.call(rbind, lapply(samples_B, est_stats)) |> as.data.frame()
+head(estimates_B)
+```
+
+### Compute Bias, MCSD, and MSE under contamination
+
+```{r}
+mc_summary_B <- summarise_mc(estimates_B, true_mean)
+
+kable(mc_summary_B, digits = 4,
+      caption = "Part B — Bias, MCSD and MSE (90% Exp(1) + 10% Exp(0.02),
+      n = 250, 1000 simulations)")
+
+```
+
+### Task 3 — Summary Table
+
+| Estimator | Bias (≈) | MCSD (≈) | MSE (≈) | Interpretation Summary |
+|---------------|---------------|---------------|---------------|---------------|
+| **Mean** | 4.937 | 1.381 | 26.283 | Extremely inflated by outliers; very large variability and error — not robust. |
+| **Median** | −0.187 | 0.082 | 0.0417 | Small negative bias; low variability — robust under contamination. |
+| **Trimmed Mean (10%)** | 0.116 | 0.169 | 0.0419 | Slight bias, similar MSE to median — nearly as robust and stable. |
+
+**Conclusion:**\
+
+Under contaminated conditions, the **mean** becomes unreliable due to extreme bias and high MSE, while both the **median** and **10 % trimmed mean** remain accurate and consistent. The **median** performs marginally better, making it the most reliable measure of “typical” completion time when data include recording errors or outliers.
+
+## Part C: Reflection & Questions
+
+### 1. Estimator Performance
+
+**Effect of outliers on average completion time**\
+Outliers substantially inflate the average completion time. A few extreme values shift the mean upward, distorting the notion of a “typical” employee response.
+
+**Performance in clean vs contaminated data**\
+In clean exponential samples, the **Mean** was unbiased with the lowest MSE (≈ 0.0038).\
+When 10 % extreme values were introduced, the **Mean** became unreliable (Bias ≈ +5, MSE ≈ 26), whereas the **Median** and **Trimmed Mean (10 %)** maintained small bias (≈ –0.19 and 0.12) and low MSE (≈ 0.042).\
+Thus, both robust estimators continued to reflect realistic central behaviour.
+
+**Most robust estimator**\
+The **Median** proved most robust, showing negligible change in bias or MSE between clean and contaminated conditions.
+
+**Simulation evidence supporting the conclusion**\
+Across 1000 replications, the Median’s Bias and MSE remained nearly constant, while the Mean’s values increased dramatically—empirical confirmation of robustness.
+
+### **2. Relative Efficiency**
+
+**Most efficient estimator in clean data**\
+The **Mean** was most efficient in the clean setting, achieving the smallest MSE and MCSD because it uses all sample information optimally when no outliers exist.
+
+**Change in efficiency under contamination**\
+Yes. With contamination, efficiency shifted to the **Median** and **Trimmed Mean (10%)**, whose MSEs (≈ 0.042) were far smaller than the Mean’s (≈ 26). Their robustness outweighed the Mean’s theoretical efficiency.
+
+### **3. Real-World Implications**
+
+**Factors for choosing between estimators**\
+Analysts should evaluate data quality, distribution shape, and risk of extreme values. Right-skewed or error-prone data favour robust estimators (Median / Trimmed Mean), while validated symmetric data justify the Mean.
+
+**Recommendation for the IT security team**\
+Report the **Median completion time** as the primary KPI—robust to recording errors and extreme delays. Complement it with the **90th percentile** and **IQR** to describe variability. For validated clean datasets, include the **Mean** or **10 % Trimmed Mean** as supporting indicators.
+
+### **Summary Reflection**
+
+These simulations show that estimator choice must depend on data conditions.\
+The **Mean** is optimal for clean, well-behaved samples, whereas the **Median** and **Trimmed Mean** safeguard reliability when contamination or long-tail behaviour is present.\
+Selecting robust estimators ensures more accurate, transparent, and equitable reporting of employee-training outcomes.
+
+# Section 2
+
+## Part A: Building the Model with Maximum Likelihood
+
+### **Problem Statement**
+
+Build a logistic model that predicts whether a country’s life expectancy is above the global median using log(GDP per capita) as the predictor. Implement maximum likelihood by code (via `optim()`), verify with `glm()`, and briefly compare the estimates.
+
+```{r}
+#| label: sec2-partA
+#| message: false
+#| warning: false
+
+# ---- Data and model fitting ----
+
+library(dplyr)
+library(ggplot2)
+library(gapminder)
+
+# Prepare data (2007 only)
+
+data <- gapminder %>%
+filter(year == 2007) %>%
+mutate(
+high_lifeExp = ifelse(lifeExp > median(lifeExp), 1, 0),
+log_gdp      = log(gdpPercap)
+)
+
+y <- data$high_lifeExp
+x <- data$log_gdp
+n <- length(y)
+
+# Log-likelihood for logistic regression: sum { y*eta - log(1+exp(eta)) }
+
+loglik_logistic <- function(par, y, x) {
+beta0 <- par[1]; beta1 <- par[2]
+eta <- beta0 + beta1 * x
+sum(y * eta - log1p(exp(eta)))
+}
+neg_loglik_logistic <- function(par, y, x) -loglik_logistic(par, y, x)
+
+# MLE via optim (BFGS); request Hessian for Part B
+
+fit_optim <- optim(
+par = c(0, 0),
+fn  = neg_loglik_logistic,
+y = y, x = x,
+method  = "BFGS",
+hessian = TRUE,
+control = list(reltol = 1e-10)
+)
+beta_hat_optim <- setNames(fit_optim$par, c("beta0","beta1"))
+
+# Same model with glm()
+
+fit_glm <- glm(high_lifeExp ~ log_gdp, data = data, family = binomial(link = "logit"))
+beta_hat_glm <- coef(fit_glm)
+
+# Side-by-side comparison
+
+round(cbind(optim = beta_hat_optim, glm = beta_hat_glm), 5)
+
+```
+
+**Short explanation & interpretation**
+
+`optim()` and `glm()` give virtually identical estimates: $\hat\beta_0 \approx -20.3824$ (vs $-20.3823$ from `glm`) and $\hat\beta_1 \approx 2.3489$. This agreement shows the manual MLE matches the built-in logistic regression. Because $\hat\beta_1>0$, higher $x=\log(\text{GDP per capita})$ is associated with a **higher probability** of being above the global median life expectancy.
+
+## Part B: Estimating Uncertainty with Fisher Information
+
+### **Problem Statement**
+
+Quantify the precision of the fitted coefficients using the observed Fisher information from the `optim()` fit. Report standard errors and construct manual 95% Wald confidence intervals for the intercept and slope.
+
+```{r}
+#| label: sec2-partB
+#| message: false
+#| warning: false
+
+# ---- Fisher information, SEs, Wald CIs ----
+
+# Observed Fisher at MLE for logistic model equals Hessian of -logLik
+
+Fisher_hat <- fit_optim$hessian
+
+# Variance-covariance and SEs
+
+vcov_hat <- solve(Fisher_hat)
+se_hat   <- sqrt(diag(vcov_hat))
+se_hat
+
+# 95% Wald CIs
+
+z <- qnorm(0.975)
+beta_hat <- setNames(fit_optim$par, c("beta0","beta1"))
+CI <- cbind(
+lower = beta_hat - z * se_hat,
+est   = beta_hat,
+upper = beta_hat + z * se_hat
+)
+round(CI, 4)
+
+```
+
+**Short explanation & interpretation**\
+Precision from the observed Fisher information (Hessian of the negative log-likelihood):
+
+$$
+\mathrm{SE}(\hat\beta_0)\approx 3.3848, \qquad
+\mathrm{SE}(\hat\beta_1)\approx 0.3863.
+$$
+
+95% Wald confidence intervals:
+
+$$
+\beta_0 \in [-27.0166,\,-13.7483], \qquad
+\beta_1 \in [1.5917,\,3.1061].
+$$
+
+**What this shows**
+
+\- The CI for $\beta_1$ **excludes 0** with a wide margin → clear positive association between income and being above the median life expectancy.
+
+\- Small SE for $\hat\beta_1$ indicates **good precision**.
+
+## Part C: Visualising Parameter Stability with Profile Likelihood
+
+### Problem Statement
+
+Assess the stability of the slope estimate by plotting the profile log-likelihood around its MLE. Use the plot to comment on how sharply the likelihood peaks and what that implies about uncertainty.
+
+```{r}
+#| label: sec2-partC
+#| message: false
+#| warning: false
+
+# ---- Profile log-likelihood for beta1 (ONE CHUNK) ----
+
+negLL <- function(par) neg_loglik_logistic(par, y = y, x = x)
+
+beta1_hat <- beta_hat["beta1"]
+se1       <- sqrt(vcov_hat[2,2])
+
+grid_beta1 <- seq(beta1_hat - 4*se1, beta1_hat + 4*se1, length.out = 200)
+
+prof_vals <- numeric(length(grid_beta1))
+for (k in seq_along(grid_beta1)) {
+b1 <- grid_beta1[k]
+
+# Optimize beta0 only (beta1 fixed). Wide, safe interval for logistic models:
+
+f_b0 <- function(b0) negLL(c(b0, b1))
+opt_b0 <- optimize(f_b0, c(-20, 20))
+prof_vals[k] <- -opt_b0$objective
+}
+prof_vals <- prof_vals - max(prof_vals)  # center at 0
+
+prof_df <- data.frame(beta1 = grid_beta1, pll = prof_vals)
+ggplot(prof_df, aes(beta1, pll)) +
+geom_line() +
+geom_vline(xintercept = beta1_hat, linetype = 2) +
+labs(
+title = "Profile Log-Likelihood for β₁ (log GDP)",
+x = expression(beta[1]),
+y = "Profile log-likelihood (centered)"
+)
+
+```
+
+**Short explanation & interpretation**\
+The profile log-likelihood for the slope peaks near the MLE and falls off to the right:
+
+$$
+\hat\beta_1 \approx 2.3489 \quad \text{(profile peak); \; curve is sharply peaked}.
+$$
+
+**What this shows**
+
+\- A **peaked** profile indicates $\beta_1$ is **well identified** (low uncertainty).
+
+\- This visual check agrees with Part B’s SE ($\approx 0.386$) and narrow CI.
+
+## Part D: Reflection & Questions
+
+### Problem Statement
+
+Translate the fitted model into plain language using odds ratios and practical effect sizes. Summarise the main finding for 2007 and note policy relevance and limitations (association, not causation)..
+
+```{r}
+#| label: sec2-partD
+#| message: false
+#| warning: false
+library(tibble)
+
+summary_tbl <- tibble(
+  term     = c("Intercept (beta0)", "log(GDP) (beta1)"),
+  estimate = c(as.numeric(beta_hat["beta0"]), as.numeric(beta_hat["beta1"])),
+  SE       = c(as.numeric(se_hat["beta0"]),   as.numeric(se_hat["beta1"])),
+  OR       = exp(c(as.numeric(beta_hat["beta0"]), as.numeric(beta_hat["beta1"])))
+)
+
+summary_tbl %>% mutate(across(where(is.numeric), ~round(.x, 4)))
+
+
+```
+
+**Short explanation & interpretation**\
+Effect size on the odds scale:
+
+$$
+\text{OR}=\exp(\hat\beta_1)=\exp(2.3489)\approx 10.5.
+$$
+
+Useful translations:
+
+$$
+\text{10\% GDP increase: } \exp(0.1\times 2.3489)\approx 1.26 \ (\sim 26\%\ \text{higher odds}).
+$$
+
+$$
+\text{Doubling GDP: } \exp((\ln 2)\times 2.3489)\approx 5.1 \ (\sim 5\times\ \text{higher odds}).
+$$
+
+**What this shows** - The effect is **large and practically meaningful**. - Combined with small SEs and a peaked profile, the estimate is **precise** for 2007.
+
+### Section 2: Overall Conclusion
+
+We model the probability of being above the global median life expectancy with a logistic link:
+
+$$
+\operatorname{logit}\!\big(\Pr(Y=1\mid x)\big)=\beta_0+\beta_1 x, 
+\qquad x=\log(\mathrm{GDP\ per\ capita}).
+$$
+
+**Findings**
+
+\- **Direction & size:** $\hat\beta_1\approx 2.3489>0$; on odds, $\exp(\hat\beta_1)\approx 10.5$\
+→ 10% GDP rise $\approx 26\%$ higher odds; doubling GDP $\approx 5\times$ higher odds.
+
+\- **Uncertainty:** $\mathrm{SE}(\hat\beta_1)\approx 0.386$; 95% CI $[1.5917,\,3.1061]$ **excludes 0**.
+
+\- **Stability:** Profile likelihood is **sharply peaked** at $\hat\beta_1$ → **precise** slope estimate.
+
+**Implication**\
+For 2007, richer countries are **substantially more likely** to exceed the global median life expectancy—consistent with UNSDG Goal 3. *Caveat:* the analysis is cross-sectional and bivariate (associational, not causal).
