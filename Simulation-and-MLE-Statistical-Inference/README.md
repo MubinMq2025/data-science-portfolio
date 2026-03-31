@@ -61,7 +61,7 @@ mean median trimmed_mean
 5.8428 0.7877 0.9839
 
 
-👉 The mean explodes due to extreme values, while median remains stable.
+The mean explodes due to extreme values, while median remains stable.
 
 ---
 
@@ -82,7 +82,7 @@ mean median trimmed_mean
 - Extremely high error: **MSE ≈ 26.28**
 - Highly sensitive to outliers
 
-👉 Completely unreliable in real-world noisy data
+Completely unreliable in real-world noisy data
 
 ---
 
@@ -91,7 +91,7 @@ mean median trimmed_mean
 - Low variability: **MCSD ≈ 0.082**
 - Stable error: **MSE ≈ 0.0417**
 
-👉 Best estimator under contamination
+Best estimator under contamination
 
 ---
 
@@ -100,7 +100,7 @@ mean median trimmed_mean
 - Moderate variability
 - Similar performance to median
 
-👉 Good compromise between efficiency and robustness
+Good compromise between efficiency and robustness
 
 ---
 
@@ -166,7 +166,7 @@ Standard errors:
 | β₀       | -27.0166 | -20.3824 | -13.7483 |
 | β₁       | 1.5917 | 2.3489 | 3.1061 |
 
-👉 Confidence interval for β₁ excludes 0 → statistically significant
+Confidence interval for β₁ excludes 0 → statistically significant
 
 ---
 
@@ -176,7 +176,7 @@ Standard errors:
 - Steep curvature → high precision  
 - Asymmetry indicates stronger penalty for larger values  
 
-👉 Confirms stability and reliability of the estimate
+Confirms stability and reliability of the estimate
 
 ---
 
@@ -185,7 +185,7 @@ Standard errors:
 - 10% GDP increase → ~26% higher odds  
 - Doubling GDP → ~5× higher odds  
 
-👉 Strong relationship between **economic development and health outcomes**
+Strong relationship between **economic development and health outcomes**
 
 ---
 
