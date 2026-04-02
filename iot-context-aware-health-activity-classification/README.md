@@ -31,7 +31,7 @@ The dataset contains time-series sensor data collected from multiple participant
 
 ---
 
-## ⚙️ Methodology
+## Methodology
 
 ### Data Preprocessing
 - Merged multiple participant files
@@ -55,7 +55,7 @@ The following models were implemented:
 
 ---
 
-## 📈 Results
+## Results
 
 | Model           | Accuracy |
 |----------------|----------|
@@ -87,17 +87,17 @@ The following models were implemented:
 ---
 
 ## Project Structure
-├── data/
-├── notebooks/
-│ └── Assignment1.ipynb
-├── report/
-│ └── report.pdf
-├── README.md
+1.  data/
+2. notebooks/
+3. Assignment1.ipynb
+4. report/
+5. report.pdf
+6.  README.md
 
 
 ---
 
-## 🚀 Business Impact
+## Business Impact
 This project demonstrates how machine learning can:
 - Reduce false health alerts
 - Improve wearable healthcare systems
