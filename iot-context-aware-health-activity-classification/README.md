@@ -87,10 +87,10 @@ The following models were implemented:
 ---
 
 ## Project Structure
-1.  data/
-2. notebooks/
+1.  data
+2. notebooks
 3. Assignment1.ipynb
-4. report/
+4. report
 5. report.pdf
 6.  README.md
 
