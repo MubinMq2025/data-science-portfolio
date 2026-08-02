@@ -1,0 +1,151 @@
+VendorKey,VendorName,VendorTier,Revenue,Margin,StockoutRate,TenureDays,RiskLabel,ML_PredictedRisk,ML_RiskConfidence
+1,Solstice Brands,Long-Tail,213921.22,0.371,0.077,324,High,High,0.663
+2,Northbridge Distribution,Emerging,198487.48,0.56,0.097,1883,Low,Low,0.843
+3,Meridian Pty Ltd,Emerging,238156.8,0.47,0.079,1436,Low,Low,0.642
+4,Harbor Trading Co.,Long-Tail,631241.77,0.495,0.094,1885,Medium,Medium,0.596
+5,Crestview Brands,Emerging,549949.62,0.515,0.048,1453,Low,Medium,0.539
+6,Lighthouse Group,Long-Tail,135449.29,0.454,0.062,1580,Medium,Medium,0.545
+7,Windward Pty Ltd,Core,647903.66,0.475,0.088,1041,Low,Low,0.668
+8,Lighthouse Industries,Emerging,627170.38,0.495,0.065,1879,Low,Low,0.584
+9,Northbridge Wholesale,Emerging,309160.48,0.507,0.073,1586,Low,Low,0.648
+10,Sterling Industries,Core,1297656.86,0.466,0.084,1969,Low,Low,0.658
+11,Highland Trading Co.,Core,220291.56,0.446,0.086,1739,Low,Low,0.724
+12,Amberly Distribution,Long-Tail,366635.25,0.519,0.096,432,Medium,Medium,0.816
+13,Bondi Distribution,Emerging,298009.08,0.538,0.051,2665,Low,Low,0.848
+14,Torrens Trading Co.,Core,460356.54,0.471,0.076,2100,Low,Low,0.758
+15,Harbor Pty Ltd,Long-Tail,443748.52,0.423,0.076,1782,Medium,Low,0.533
+16,Cascade Industries,Long-Tail,273355.73,0.456,0.11,352,High,High,0.65
+17,Windward Industries,Emerging,190739.62,0.57,0.067,304,Medium,Medium,0.764
+18,Summit Goods,Long-Tail,36330.7,0.571,0.062,2168,Medium,Medium,0.764
+19,Pioneer Pty Ltd,Core,247649.25,0.505,0.057,2778,Low,Low,0.857
+20,Coastal Industries,Core,197817.05,0.413,0.06,2468,Low,Low,0.885
+21,Torrens Pty Ltd,Long-Tail,381039.95,0.538,0.056,2763,Medium,Low,0.715
+22,Summit Wholesale,Long-Tail,559919.22,0.453,0.061,2104,Medium,Low,0.715
+23,Crestview Industries,Long-Tail,138546.59,0.352,0.071,1990,Medium,Low,0.72
+24,Harbor Manufacturing,Emerging,173591.2,0.474,0.048,1764,Low,Low,0.883
+25,Pioneer Distribution,Long-Tail,691437.09,0.512,0.075,412,Medium,Medium,0.833
+26,Vantage Goods,Long-Tail,559315.73,0.498,0.055,3046,Medium,Medium,0.614
+27,Redwood Goods,Long-Tail,282033.08,0.477,0.081,390,Medium,Medium,0.67
+28,Summit Trading Co.,Long-Tail,200761.78,0.47,0.095,2596,Medium,Low,0.564
+29,Aurora Trading Co.,Emerging,616467.79,0.505,0.059,356,Medium,Medium,0.864
+30,Kangaroo Trading Co.,Emerging,518754.23,0.476,0.073,2267,Low,Low,0.818
+31,Highland Group,Emerging,351645.84,0.502,0.084,3095,Low,Low,0.691
+32,Aurora Supply Co.,Long-Tail,310797.36,0.541,0.07,2396,Medium,Medium,0.539
+33,Solstice Group,Long-Tail,280331.44,0.504,0.09,1189,Medium,Medium,0.616
+34,Amberly Wholesale,Core,222153.97,0.361,0.057,586,Low,Low,0.89
+35,Coastal Goods,Core,615755.11,0.4,0.066,1911,Low,Low,0.808
+36,Crestview Group,Emerging,123109.79,0.508,0.048,2207,Low,Low,0.819
+37,Summit Manufacturing,Emerging,302096.75,0.475,0.08,1099,Low,Low,0.757
+38,Windward Distribution,Long-Tail,482164.46,0.475,0.087,627,Medium,Low,0.568
+39,Lighthouse Trading Co.,Core,246939.55,0.561,0.047,356,Medium,Medium,0.732
+40,Ironwood Wholesale,Strategic,121994.06,0.435,0.09,336,Medium,Medium,0.841
+41,Crestview Manufacturing,Emerging,483408.48,0.496,0.077,2211,Low,Low,0.726
+42,Meridian Distribution,Core,152331.28,0.422,0.141,1554,Low,Low,0.769
+43,Sterling Manufacturing,Emerging,86771.95,0.309,0.043,2746,Low,Low,0.703
+44,Lighthouse Goods,Long-Tail,30418.23,0.41,0.024,1518,Medium,Medium,0.821
+45,Cascade Brands,Long-Tail,621198.27,0.439,0.086,2880,Medium,Medium,0.656
+46,Summit Distribution,Core,477230.19,0.485,0.072,2427,Low,Low,0.804
+47,Solstice Distribution,Emerging,396428.62,0.546,0.057,1297,Low,Medium,0.507
+48,Harbor Wholesale,Emerging,160654.25,0.453,0.043,1191,Low,Low,0.831
+49,Pioneer Supply Co.,Emerging,390569.72,0.515,0.057,638,Low,Low,0.513
+50,Aurora Manufacturing,Core,171315.3,0.421,0.074,3126,Low,Low,0.719
+51,Everest Brands,Emerging,462063.4,0.516,0.059,264,Medium,Medium,0.833
+52,Cascade Goods,Long-Tail,420054.8,0.462,0.069,2338,Medium,Low,0.532
+53,Bondi Manufacturing,Emerging,313411.98,0.537,0.108,2259,Low,Low,0.795
+54,Crestview Wholesale,Long-Tail,357097.5,0.488,0.065,2107,Medium,Low,0.564
+55,Everest Distribution,Emerging,509468.6,0.473,0.081,2120,Low,Low,0.791
+56,Harbor Distribution,Emerging,275400.52,0.433,0.026,1311,Low,Low,0.646
+57,Amberly Pty Ltd,Emerging,623061.72,0.496,0.055,2762,Low,Low,0.725
+58,Ironwood Industries,Emerging,211717.34,0.463,0.074,942,Low,Low,0.772
+59,Cobalt Manufacturing,Long-Tail,387883.3,0.504,0.068,2912,Medium,Medium,0.624
+60,Cascade Wholesale,Core,222922.87,0.486,0.063,1873,Low,Low,0.766
+61,Bondi Supply Co.,Emerging,186980.23,0.355,0.116,911,Low,Low,0.914
+62,Ironwood Distribution,Emerging,395317.61,0.464,0.097,1333,Low,Low,0.713
+63,Crestview Pty Ltd,Long-Tail,63423.24,0.575,0.073,2283,Medium,Medium,0.652
+64,Outback Industries,Strategic,8329.7,0.471,0.075,3073,Low,Low,0.7
+65,Kangaroo Goods,Long-Tail,686616.94,0.489,0.063,1895,Medium,Medium,0.604
+66,Cobalt Pty Ltd,Emerging,235200.04,0.39,0.022,261,Medium,Medium,0.79
+67,Torrens Goods,Core,187101.43,0.442,0.093,293,Medium,Medium,0.779
+68,Sterling Wholesale,Long-Tail,637556.31,0.447,0.084,2447,Medium,Medium,0.65
+69,Pioneer Brands,Long-Tail,930779.36,0.471,0.077,1651,Medium,Medium,0.542
+70,Bondi Industries,Long-Tail,100486.87,0.411,0.09,1502,Medium,Medium,0.636
+71,Blue Gum Supply Co.,Core,321434.71,0.489,0.093,983,Low,Low,0.646
+72,Ironwood Manufacturing,Emerging,236806.73,0.478,0.041,2625,Low,Low,0.912
+73,Crestview Goods,Emerging,283799.17,0.486,0.092,2751,Low,Low,0.804
+74,Blue Gum Goods,Long-Tail,508229.54,0.395,0.057,2731,Medium,Low,0.886
+75,Bondi Pty Ltd,Strategic,166199.26,0.404,0.044,265,Medium,Medium,0.872
+76,Outback Brands,Core,153593.09,0.375,0.042,2618,Low,Low,0.872
+77,Coastal Wholesale,Core,513339.06,0.57,0.096,2660,Low,Low,0.764
+78,Kangaroo Distribution,Core,343439.36,0.521,0.06,1135,Low,Low,0.556
+79,Blue Gum Wholesale,Emerging,246128.17,0.42,0.03,379,Low,Low,0.761
+80,Outback Distribution,Emerging,152099.81,0.545,0.061,1467,Low,Low,0.744
+81,Northbridge Goods,Emerging,271278.89,0.445,0.057,1242,Low,Low,0.856
+82,Redwood Distribution,Long-Tail,540625.12,0.423,0.074,317,High,High,0.767
+83,Lighthouse Distribution,Long-Tail,223517.77,0.506,0.072,1675,Medium,Low,0.711
+84,Bondi Group,Strategic,508625.91,0.434,0.043,411,Low,Low,0.756
+85,Pioneer Trading Co.,Core,800633.09,0.5,0.092,2422,Low,Low,0.679
+86,Harbor Goods,Emerging,171025.77,0.492,0.042,3053,Low,Low,0.841
+87,Solstice Trading Co.,Emerging,290738.47,0.432,0.045,1967,Low,Low,0.87
+88,Kangaroo Industries,Core,342546.06,0.465,0.047,631,Low,Low,0.828
+89,Amberly Supply Co.,Core,71598.69,0.571,0.084,1234,Low,Low,0.659
+90,Solstice Manufacturing,Core,123574.32,0.363,0.128,1087,Low,Low,0.905
+91,Aurora Group,Long-Tail,229305.24,0.464,0.08,3085,Medium,Medium,0.551
+92,Summit Brands,Core,330215.18,0.495,0.089,2451,Low,Low,0.711
+93,Aurora Goods,Long-Tail,587666.08,0.531,0.09,2419,Medium,Medium,0.65
+94,Coastal Manufacturing,Emerging,132366.23,0.538,0.114,1666,Low,Low,0.861
+95,Vantage Brands,Core,196994.59,0.549,0.086,2687,Low,Low,0.812
+96,Amberly Manufacturing,Emerging,233608.32,0.482,0.092,2255,Low,Low,0.782
+97,Coastal Brands,Core,399709.77,0.447,0.054,2648,Low,Low,0.833
+98,Meridian Supply Co.,Emerging,577682.64,0.503,0.098,1312,Low,Medium,0.54
+99,Amberly Brands,Core,178037.22,0.475,0.056,1054,Low,Low,0.842
+100,Sterling Group,Strategic,260338.29,0.492,0.124,993,Low,Low,0.648
+101,Redwood Group,Emerging,653525.51,0.482,0.057,1561,Low,Low,0.642
+102,Meridian Goods,Core,130244.71,0.316,0.096,934,Low,Low,0.799
+103,Solstice Supply Co.,Strategic,510073.37,0.467,0.059,2886,Low,Low,0.776
+104,Windward Wholesale,Emerging,285845.59,0.472,0.067,2462,Low,Low,0.745
+105,Blue Gum Distribution,Strategic,145161.41,0.497,0.042,2698,Low,Low,0.906
+106,Vantage Group,Long-Tail,376309.65,0.546,0.087,970,Medium,Medium,0.712
+107,Crestview Supply Co.,Strategic,380968.34,0.431,0.046,2365,Low,Low,0.849
+108,Ironwood Brands,Emerging,239301.69,0.483,0.073,2868,Low,Low,0.821
+109,Blue Gum Manufacturing,Emerging,195494.73,0.461,0.093,1151,Low,Low,0.768
+110,Solstice Pty Ltd,Emerging,358402.97,0.499,0.069,2058,Low,Low,0.612
+111,Coastal Distribution,Core,428601.97,0.502,0.044,2900,Low,Low,0.702
+112,Torrens Group,Core,84220.91,0.576,0.058,2747,Low,Low,0.806
+113,Cobalt Industries,Long-Tail,374467.56,0.461,0.039,2373,Medium,Low,0.802
+114,Torrens Supply Co.,Long-Tail,436710.36,0.513,0.029,1287,Medium,Medium,0.674
+115,Everest Pty Ltd,Long-Tail,372907.87,0.481,0.088,687,Medium,Low,0.545
+116,Northbridge Trading Co.,Core,352958.73,0.46,0.051,2512,Low,Low,0.845
+117,Northbridge Brands,Strategic,494192.22,0.42,0.063,321,Medium,Medium,0.517
+118,Blue Gum Pty Ltd,Core,490166.81,0.485,0.057,1883,Low,Low,0.805
+119,Vantage Distribution,Emerging,235667.3,0.402,0.073,235,Medium,Medium,0.757
+120,Sterling Trading Co.,Core,644177.61,0.49,0.088,2558,Low,Low,0.669
+121,Kangaroo Pty Ltd,Long-Tail,469251.58,0.499,0.054,1013,Medium,Medium,0.635
+122,Ironwood Trading Co.,Core,355583.75,0.456,0.064,2701,Low,Low,0.672
+123,Torrens Manufacturing,Long-Tail,712497.05,0.538,0.066,985,Medium,Medium,0.733
+124,Meridian Trading Co.,Emerging,284773.19,0.483,0.075,2372,Low,Low,0.799
+125,Outback Goods,Long-Tail,468752.37,0.441,0.057,350,High,Medium,0.535
+126,Pioneer Goods,Core,459506.45,0.516,0.114,282,High,High,0.78
+127,Windward Goods,Emerging,337446.03,0.413,0.068,1806,Low,Low,0.819
+128,Meridian Manufacturing,Emerging,579652.78,0.537,0.069,990,Low,Low,0.501
+129,Aurora Distribution,Core,142502.43,0.386,0.09,290,Medium,Medium,0.884
+130,Harbor Group,Core,744679.54,0.475,0.065,1777,Low,Low,0.695
+131,Cobalt Brands,Long-Tail,692425.9,0.512,0.081,229,High,High,0.717
+132,Everest Wholesale,Long-Tail,287022.33,0.557,0.048,653,Medium,Low,0.528
+133,Summit Group,Strategic,270915.93,0.44,0.06,2689,Low,Low,0.847
+134,Torrens Industries,Emerging,567661.32,0.406,0.066,1118,Low,Low,0.837
+135,Windward Manufacturing,Emerging,149599.29,0.395,0.091,1804,Low,Low,0.82
+136,Coastal Pty Ltd,Long-Tail,173130.67,0.443,0.05,2887,Medium,Low,0.515
+137,Ironwood Goods,Core,343383.71,0.509,0.056,2970,Low,Low,0.635
+138,Northbridge Industries,Core,408256.69,0.418,0.077,1777,Low,Low,0.73
+139,Kangaroo Brands,Core,529149.23,0.49,0.072,2116,Low,Low,0.704
+140,Aurora Brands,Emerging,426520.46,0.494,0.076,2594,Low,Low,0.761
+141,Solstice Industries,Emerging,822786.46,0.481,0.064,2377,Low,Low,0.67
+142,Pioneer Manufacturing,Strategic,167997.04,0.476,0.057,1007,Low,Low,0.816
+143,Everest Manufacturing,Long-Tail,263727.78,0.505,0.1,955,Medium,Medium,0.645
+144,Harbor Brands,Emerging,218789.54,0.477,0.073,2339,Low,Low,0.824
+145,Everest Goods,Core,322314.03,0.443,0.083,2998,Low,Low,0.533
+146,Kangaroo Manufacturing,Core,108137.17,0.541,0.13,904,Low,Low,0.832
+147,Cascade Distribution,Core,455006.1,0.498,0.046,1782,Low,Low,0.562
+148,Highland Goods,Long-Tail,281037.49,0.481,0.041,303,High,Medium,0.654
+149,Blue Gum Trading Co.,Emerging,172961.76,0.47,0.077,1260,Low,Low,0.73
+150,Windward Brands,Emerging,333147.11,0.542,0.101,3067,Low,Low,0.827

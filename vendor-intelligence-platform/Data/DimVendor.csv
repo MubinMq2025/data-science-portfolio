@@ -1,0 +1,151 @@
+VendorKey,VendorName,VendorID,VendorTier,Country,OnboardDate,AccountManager,VendorSegment
+1,Solstice Brands,VND-1000,Long-Tail,United States,2025-09-12,M. Chen,Brand Owner
+2,Northbridge Distribution,VND-1001,Emerging,China,2021-06-06,L. Fitzgerald,Brand Owner
+3,Meridian Pty Ltd,VND-1002,Emerging,United States,2022-08-27,K. Nguyen,Distributor
+4,Harbor Trading Co.,VND-1003,Long-Tail,Australia,2021-06-04,M. Chen,Distributor
+5,Crestview Brands,VND-1004,Emerging,China,2022-08-10,K. Nguyen,Brand Owner
+6,Lighthouse Group,VND-1005,Long-Tail,Australia,2022-04-05,L. Fitzgerald,Reseller
+7,Windward Pty Ltd,VND-1006,Core,Australia,2023-09-26,S. Patel,Distributor
+8,Lighthouse Industries,VND-1007,Emerging,Australia,2021-06-10,S. Patel,Brand Owner
+9,Northbridge Wholesale,VND-1008,Emerging,Australia,2022-03-30,A. Costa,Brand Owner
+10,Sterling Industries,VND-1009,Core,Australia,2021-03-12,S. Patel,Brand Owner
+11,Highland Trading Co.,VND-1010,Core,Australia,2021-10-28,S. Patel,Brand Owner
+12,Amberly Distribution,VND-1011,Long-Tail,Germany,2025-05-27,D. O'Brien,Brand Owner
+13,Bondi Distribution,VND-1012,Emerging,Australia,2019-04-16,J. Alvarez,Brand Owner
+14,Torrens Trading Co.,VND-1013,Core,Australia,2020-11-01,D. O'Brien,Brand Owner
+15,Harbor Pty Ltd,VND-1014,Long-Tail,United States,2021-09-15,D. O'Brien,Brand Owner
+16,Cascade Industries,VND-1015,Long-Tail,New Zealand,2025-08-15,A. Costa,Reseller
+17,Windward Industries,VND-1016,Emerging,Australia,2025-10-02,D. O'Brien,Brand Owner
+18,Summit Goods,VND-1017,Long-Tail,China,2020-08-25,S. Patel,Brand Owner
+19,Pioneer Pty Ltd,VND-1018,Core,China,2018-12-24,L. Fitzgerald,Brand Owner
+20,Coastal Industries,VND-1019,Core,Australia,2019-10-30,A. Costa,Reseller
+21,Torrens Pty Ltd,VND-1020,Long-Tail,Germany,2019-01-08,A. Costa,Brand Owner
+22,Summit Wholesale,VND-1021,Long-Tail,Vietnam,2020-10-28,R. Thompson,Brand Owner
+23,Crestview Industries,VND-1022,Long-Tail,Australia,2021-02-19,A. Costa,Reseller
+24,Harbor Manufacturing,VND-1023,Emerging,Australia,2021-10-03,R. Thompson,Reseller
+25,Pioneer Distribution,VND-1024,Long-Tail,Germany,2025-06-16,A. Costa,Distributor
+26,Vantage Goods,VND-1025,Long-Tail,China,2018-03-31,J. Alvarez,Brand Owner
+27,Redwood Goods,VND-1026,Long-Tail,China,2025-07-08,S. Patel,Brand Owner
+28,Summit Trading Co.,VND-1027,Long-Tail,United States,2019-06-24,A. Costa,Distributor
+29,Aurora Trading Co.,VND-1028,Emerging,China,2025-08-11,S. Patel,Reseller
+30,Kangaroo Trading Co.,VND-1029,Emerging,Germany,2020-05-18,S. Patel,Distributor
+31,Highland Group,VND-1030,Emerging,Germany,2018-02-10,K. Nguyen,Distributor
+32,Aurora Supply Co.,VND-1031,Long-Tail,Vietnam,2020-01-10,A. Costa,Brand Owner
+33,Solstice Group,VND-1032,Long-Tail,China,2023-05-01,M. Chen,Distributor
+34,Amberly Wholesale,VND-1033,Core,New Zealand,2024-12-24,K. Nguyen,Brand Owner
+35,Coastal Goods,VND-1034,Core,United States,2021-05-09,M. Chen,Brand Owner
+36,Crestview Group,VND-1035,Emerging,China,2020-07-17,S. Patel,Brand Owner
+37,Summit Manufacturing,VND-1036,Emerging,Australia,2023-07-30,S. Patel,Brand Owner
+38,Windward Distribution,VND-1037,Long-Tail,New Zealand,2024-11-13,K. Nguyen,Brand Owner
+39,Lighthouse Trading Co.,VND-1038,Core,New Zealand,2025-08-11,K. Nguyen,Brand Owner
+40,Ironwood Wholesale,VND-1039,Strategic,China,2025-08-31,M. Chen,Distributor
+41,Crestview Manufacturing,VND-1040,Emerging,New Zealand,2020-07-13,R. Thompson,Brand Owner
+42,Meridian Distribution,VND-1041,Core,United States,2022-05-01,M. Chen,Distributor
+43,Sterling Manufacturing,VND-1042,Emerging,Australia,2019-01-25,K. Nguyen,Brand Owner
+44,Lighthouse Goods,VND-1043,Long-Tail,Australia,2022-06-06,L. Fitzgerald,Brand Owner
+45,Cascade Brands,VND-1044,Long-Tail,Australia,2018-09-13,K. Nguyen,Brand Owner
+46,Summit Distribution,VND-1045,Core,China,2019-12-10,L. Fitzgerald,Brand Owner
+47,Solstice Distribution,VND-1046,Emerging,Australia,2023-01-13,J. Alvarez,Brand Owner
+48,Harbor Wholesale,VND-1047,Emerging,China,2023-04-29,K. Nguyen,Brand Owner
+49,Pioneer Supply Co.,VND-1048,Emerging,Australia,2024-11-02,J. Alvarez,Brand Owner
+50,Aurora Manufacturing,VND-1049,Core,United States,2018-01-10,R. Thompson,Reseller
+51,Everest Brands,VND-1050,Emerging,China,2025-11-11,M. Chen,Brand Owner
+52,Cascade Goods,VND-1051,Long-Tail,United States,2020-03-08,L. Fitzgerald,Distributor
+53,Bondi Manufacturing,VND-1052,Emerging,Australia,2020-05-26,M. Chen,Brand Owner
+54,Crestview Wholesale,VND-1053,Long-Tail,Australia,2020-10-25,J. Alvarez,Distributor
+55,Everest Distribution,VND-1054,Emerging,China,2020-10-12,L. Fitzgerald,Distributor
+56,Harbor Distribution,VND-1055,Emerging,United States,2022-12-30,M. Chen,Distributor
+57,Amberly Pty Ltd,VND-1056,Emerging,Australia,2019-01-09,K. Nguyen,Brand Owner
+58,Ironwood Industries,VND-1057,Emerging,Germany,2024-01-03,S. Patel,Brand Owner
+59,Cobalt Manufacturing,VND-1058,Long-Tail,Australia,2018-08-12,J. Alvarez,Brand Owner
+60,Cascade Wholesale,VND-1059,Core,China,2021-06-16,M. Chen,Reseller
+61,Bondi Supply Co.,VND-1060,Emerging,Germany,2024-02-03,J. Alvarez,Distributor
+62,Ironwood Distribution,VND-1061,Emerging,China,2022-12-08,D. O'Brien,Reseller
+63,Crestview Pty Ltd,VND-1062,Long-Tail,China,2020-05-02,J. Alvarez,Brand Owner
+64,Outback Industries,VND-1063,Strategic,China,2018-03-04,L. Fitzgerald,Distributor
+65,Kangaroo Goods,VND-1064,Long-Tail,China,2021-05-25,D. O'Brien,Reseller
+66,Cobalt Pty Ltd,VND-1065,Emerging,United States,2025-11-14,A. Costa,Brand Owner
+67,Torrens Goods,VND-1066,Core,Australia,2025-10-13,L. Fitzgerald,Brand Owner
+68,Sterling Wholesale,VND-1067,Long-Tail,Australia,2019-11-20,S. Patel,Distributor
+69,Pioneer Brands,VND-1068,Long-Tail,China,2022-01-24,D. O'Brien,Distributor
+70,Bondi Industries,VND-1069,Long-Tail,Vietnam,2022-06-22,A. Costa,Distributor
+71,Blue Gum Supply Co.,VND-1070,Core,China,2023-11-23,K. Nguyen,Brand Owner
+72,Ironwood Manufacturing,VND-1071,Emerging,Australia,2019-05-26,J. Alvarez,Distributor
+73,Crestview Goods,VND-1072,Emerging,United States,2019-01-20,M. Chen,Brand Owner
+74,Blue Gum Goods,VND-1073,Long-Tail,United States,2019-02-09,R. Thompson,Brand Owner
+75,Bondi Pty Ltd,VND-1074,Strategic,Australia,2025-11-10,J. Alvarez,Brand Owner
+76,Outback Brands,VND-1075,Core,China,2019-06-02,A. Costa,Distributor
+77,Coastal Wholesale,VND-1076,Core,China,2019-04-21,J. Alvarez,Distributor
+78,Kangaroo Distribution,VND-1077,Core,China,2023-06-24,S. Patel,Brand Owner
+79,Blue Gum Wholesale,VND-1078,Emerging,China,2025-07-19,K. Nguyen,Brand Owner
+80,Outback Distribution,VND-1079,Emerging,Australia,2022-07-27,R. Thompson,Reseller
+81,Northbridge Goods,VND-1080,Emerging,Australia,2023-03-09,D. O'Brien,Brand Owner
+82,Redwood Distribution,VND-1081,Long-Tail,Australia,2025-09-19,D. O'Brien,Distributor
+83,Lighthouse Distribution,VND-1082,Long-Tail,Germany,2021-12-31,D. O'Brien,Brand Owner
+84,Bondi Group,VND-1083,Strategic,New Zealand,2025-06-17,A. Costa,Brand Owner
+85,Pioneer Trading Co.,VND-1084,Core,China,2019-12-15,L. Fitzgerald,Brand Owner
+86,Harbor Goods,VND-1085,Emerging,Germany,2018-03-24,L. Fitzgerald,Brand Owner
+87,Solstice Trading Co.,VND-1086,Emerging,United States,2021-03-14,M. Chen,Distributor
+88,Kangaroo Industries,VND-1087,Core,China,2024-11-09,R. Thompson,Brand Owner
+89,Amberly Supply Co.,VND-1088,Core,China,2023-03-17,D. O'Brien,Brand Owner
+90,Solstice Manufacturing,VND-1089,Core,Australia,2023-08-11,L. Fitzgerald,Reseller
+91,Aurora Group,VND-1090,Long-Tail,Australia,2018-02-20,A. Costa,Brand Owner
+92,Summit Brands,VND-1091,Core,China,2019-11-16,M. Chen,Brand Owner
+93,Aurora Goods,VND-1092,Long-Tail,China,2019-12-18,K. Nguyen,Reseller
+94,Coastal Manufacturing,VND-1093,Emerging,Australia,2022-01-09,M. Chen,Distributor
+95,Vantage Brands,VND-1094,Core,Germany,2019-03-25,L. Fitzgerald,Brand Owner
+96,Amberly Manufacturing,VND-1095,Emerging,New Zealand,2020-05-30,S. Patel,Reseller
+97,Coastal Brands,VND-1096,Core,Australia,2019-05-03,A. Costa,Distributor
+98,Meridian Supply Co.,VND-1097,Emerging,Germany,2022-12-29,S. Patel,Brand Owner
+99,Amberly Brands,VND-1098,Core,Germany,2023-09-13,D. O'Brien,Brand Owner
+100,Sterling Group,VND-1099,Strategic,Germany,2023-11-13,S. Patel,Distributor
+101,Redwood Group,VND-1100,Emerging,Australia,2022-04-24,D. O'Brien,Distributor
+102,Meridian Goods,VND-1101,Core,United States,2024-01-11,D. O'Brien,Brand Owner
+103,Solstice Supply Co.,VND-1102,Strategic,China,2018-09-07,L. Fitzgerald,Reseller
+104,Windward Wholesale,VND-1103,Emerging,United States,2019-11-05,S. Patel,Distributor
+105,Blue Gum Distribution,VND-1104,Strategic,Germany,2019-03-14,D. O'Brien,Brand Owner
+106,Vantage Group,VND-1105,Long-Tail,United States,2023-12-06,R. Thompson,Brand Owner
+107,Crestview Supply Co.,VND-1106,Strategic,New Zealand,2020-02-10,K. Nguyen,Brand Owner
+108,Ironwood Brands,VND-1107,Emerging,Vietnam,2018-09-25,M. Chen,Distributor
+109,Blue Gum Manufacturing,VND-1108,Emerging,New Zealand,2023-06-08,M. Chen,Brand Owner
+110,Solstice Pty Ltd,VND-1109,Emerging,China,2020-12-13,L. Fitzgerald,Distributor
+111,Coastal Distribution,VND-1110,Core,Australia,2018-08-24,S. Patel,Distributor
+112,Torrens Group,VND-1111,Core,China,2019-01-24,S. Patel,Reseller
+113,Cobalt Industries,VND-1112,Long-Tail,Vietnam,2020-02-02,D. O'Brien,Brand Owner
+114,Torrens Supply Co.,VND-1113,Long-Tail,Australia,2023-01-23,A. Costa,Distributor
+115,Everest Pty Ltd,VND-1114,Long-Tail,China,2024-09-14,J. Alvarez,Brand Owner
+116,Northbridge Trading Co.,VND-1115,Core,Australia,2019-09-16,D. O'Brien,Distributor
+117,Northbridge Brands,VND-1116,Strategic,China,2025-09-15,K. Nguyen,Brand Owner
+118,Blue Gum Pty Ltd,VND-1117,Core,Vietnam,2021-06-06,R. Thompson,Brand Owner
+119,Vantage Distribution,VND-1118,Emerging,Vietnam,2025-12-10,M. Chen,Distributor
+120,Sterling Trading Co.,VND-1119,Core,Australia,2019-08-01,D. O'Brien,Brand Owner
+121,Kangaroo Pty Ltd,VND-1120,Long-Tail,Vietnam,2023-10-24,J. Alvarez,Brand Owner
+122,Ironwood Trading Co.,VND-1121,Core,China,2019-03-11,J. Alvarez,Distributor
+123,Torrens Manufacturing,VND-1122,Long-Tail,China,2023-11-21,D. O'Brien,Distributor
+124,Meridian Trading Co.,VND-1123,Emerging,United States,2020-02-03,L. Fitzgerald,Distributor
+125,Outback Goods,VND-1124,Long-Tail,China,2025-08-17,M. Chen,Distributor
+126,Pioneer Goods,VND-1125,Core,China,2025-10-24,L. Fitzgerald,Brand Owner
+127,Windward Goods,VND-1126,Emerging,United States,2021-08-22,R. Thompson,Brand Owner
+128,Meridian Manufacturing,VND-1127,Emerging,Australia,2023-11-16,J. Alvarez,Brand Owner
+129,Aurora Distribution,VND-1128,Core,Australia,2025-10-16,J. Alvarez,Brand Owner
+130,Harbor Group,VND-1129,Core,China,2021-09-20,K. Nguyen,Reseller
+131,Cobalt Brands,VND-1130,Long-Tail,Australia,2025-12-16,R. Thompson,Distributor
+132,Everest Wholesale,VND-1131,Long-Tail,China,2024-10-18,J. Alvarez,Brand Owner
+133,Summit Group,VND-1132,Strategic,China,2019-03-23,R. Thompson,Brand Owner
+134,Torrens Industries,VND-1133,Emerging,United States,2023-07-11,M. Chen,Reseller
+135,Windward Manufacturing,VND-1134,Emerging,United States,2021-08-24,S. Patel,Brand Owner
+136,Coastal Pty Ltd,VND-1135,Long-Tail,New Zealand,2018-09-06,J. Alvarez,Distributor
+137,Ironwood Goods,VND-1136,Core,United States,2018-06-15,K. Nguyen,Brand Owner
+138,Northbridge Industries,VND-1137,Core,United States,2021-09-20,M. Chen,Distributor
+139,Kangaroo Brands,VND-1138,Core,Australia,2020-10-16,D. O'Brien,Brand Owner
+140,Aurora Brands,VND-1139,Emerging,China,2019-06-26,R. Thompson,Reseller
+141,Solstice Industries,VND-1140,Emerging,China,2020-01-29,D. O'Brien,Reseller
+142,Pioneer Manufacturing,VND-1141,Strategic,Australia,2023-10-30,L. Fitzgerald,Distributor
+143,Everest Manufacturing,VND-1142,Long-Tail,China,2023-12-21,M. Chen,Distributor
+144,Harbor Brands,VND-1143,Emerging,China,2020-03-07,D. O'Brien,Reseller
+145,Everest Goods,VND-1144,Core,New Zealand,2018-05-18,A. Costa,Distributor
+146,Kangaroo Manufacturing,VND-1145,Core,Germany,2024-02-10,A. Costa,Brand Owner
+147,Cascade Distribution,VND-1146,Core,China,2021-09-15,J. Alvarez,Distributor
+148,Highland Goods,VND-1147,Long-Tail,Australia,2025-10-03,R. Thompson,Distributor
+149,Blue Gum Trading Co.,VND-1148,Emerging,Australia,2023-02-19,S. Patel,Brand Owner
+150,Windward Brands,VND-1149,Emerging,Vietnam,2018-03-10,M. Chen,Distributor

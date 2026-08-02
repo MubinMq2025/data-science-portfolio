@@ -1,0 +1,61 @@
+PromotionKey,PromotionName,PromotionType,StartDate,EndDate,DiscountDepthPct
+1,Percent Off #1000,Percent Off,2026-02-09,2026-02-11,35.8
+2,Lightning Deal #1001,Lightning Deal,2026-03-25,2026-04-01,13.2
+3,Prime Day Deal #1002,Percent Off,2024-03-14,2024-03-19,42.7
+4,Percent Off #1003,BOGO,2025-04-22,2025-05-06,19.3
+5,Coupon #1004,Prime Day Deal,2024-04-08,2024-04-11,23.4
+6,Coupon #1005,Lightning Deal,2023-01-20,2023-02-03,40.8
+7,Coupon #1006,Coupon,2026-02-01,2026-02-03,21.9
+8,BOGO #1007,Subscribe & Save Boost,2023-09-10,2023-09-13,35.5
+9,Lightning Deal #1008,BOGO,2026-06-13,2026-06-27,37.1
+10,Percent Off #1009,Percent Off,2024-05-13,2024-05-14,21.6
+11,Prime Day Deal #1010,Best Deal,2026-03-08,2026-03-13,16.7
+12,BOGO #1011,Prime Day Deal,2024-12-15,2024-12-20,26.2
+13,BOGO #1012,Prime Day Deal,2025-05-19,2025-06-02,13.4
+14,BOGO #1013,Prime Day Deal,2025-05-01,2025-05-06,6.6
+15,BOGO #1014,Lightning Deal,2026-01-01,2026-01-06,32.9
+16,Percent Off #1015,Coupon,2025-02-06,2025-02-08,8.7
+17,Prime Day Deal #1016,Lightning Deal,2025-04-05,2025-04-08,24.0
+18,Coupon #1017,Coupon,2024-06-23,2024-06-30,35.3
+19,Lightning Deal #1018,Lightning Deal,2024-12-17,2024-12-19,26.5
+20,Lightning Deal #1019,Percent Off,2026-01-12,2026-01-13,10.9
+21,Subscribe & Save Boost #1020,Coupon,2025-08-15,2025-08-18,14.7
+22,Prime Day Deal #1021,Best Deal,2023-02-12,2023-02-17,37.8
+23,Prime Day Deal #1022,Best Deal,2025-11-05,2025-11-19,16.7
+24,Lightning Deal #1023,Prime Day Deal,2025-08-15,2025-08-18,17.8
+25,Subscribe & Save Boost #1024,Coupon,2025-08-12,2025-08-17,16.9
+26,Best Deal #1025,Percent Off,2024-08-28,2024-08-29,21.6
+27,Percent Off #1026,Percent Off,2025-01-15,2025-01-29,21.5
+28,Best Deal #1027,Subscribe & Save Boost,2025-07-28,2025-07-31,20.2
+29,Prime Day Deal #1028,Coupon,2026-01-16,2026-01-17,25.3
+30,Percent Off #1029,Lightning Deal,2023-02-02,2023-02-03,38.7
+31,Lightning Deal #1030,Percent Off,2026-03-02,2026-03-09,6.2
+32,Subscribe & Save Boost #1031,Lightning Deal,2024-09-19,2024-09-26,14.6
+33,Percent Off #1032,BOGO,2026-01-30,2026-02-13,28.2
+34,Coupon #1033,Lightning Deal,2023-12-04,2023-12-07,37.8
+35,Prime Day Deal #1034,Prime Day Deal,2024-12-31,2025-01-01,38.2
+36,Best Deal #1035,Subscribe & Save Boost,2023-03-24,2023-03-25,26.3
+37,Percent Off #1036,BOGO,2025-05-18,2025-05-23,14.9
+38,Lightning Deal #1037,Subscribe & Save Boost,2023-11-25,2023-11-27,29.3
+39,Best Deal #1038,Lightning Deal,2025-11-12,2025-11-15,41.1
+40,BOGO #1039,Lightning Deal,2025-07-11,2025-07-14,27.0
+41,Lightning Deal #1040,Best Deal,2026-04-29,2026-05-02,29.2
+42,BOGO #1041,Percent Off,2024-09-12,2024-09-15,29.7
+43,Prime Day Deal #1042,Lightning Deal,2024-10-25,2024-10-30,16.4
+44,Lightning Deal #1043,Best Deal,2023-05-28,2023-06-11,22.8
+45,BOGO #1044,Best Deal,2024-02-06,2024-02-20,39.5
+46,Best Deal #1045,Lightning Deal,2024-06-20,2024-06-25,25.2
+47,Percent Off #1046,Subscribe & Save Boost,2023-05-06,2023-05-08,20.3
+48,Percent Off #1047,Lightning Deal,2024-09-19,2024-09-20,10.4
+49,Best Deal #1048,Lightning Deal,2024-03-18,2024-03-25,42.2
+50,Percent Off #1049,Coupon,2024-06-04,2024-06-18,40.5
+51,Lightning Deal #1050,Coupon,2023-01-14,2023-01-28,41.4
+52,Subscribe & Save Boost #1051,BOGO,2026-05-15,2026-05-17,22.5
+53,Coupon #1052,Coupon,2026-05-29,2026-06-01,11.2
+54,BOGO #1053,Subscribe & Save Boost,2023-12-21,2023-12-22,29.9
+55,Best Deal #1054,Lightning Deal,2024-01-08,2024-01-10,7.3
+56,Lightning Deal #1055,Coupon,2024-07-28,2024-07-29,34.5
+57,Subscribe & Save Boost #1056,Best Deal,2026-05-23,2026-05-28,24.4
+58,Prime Day Deal #1057,Prime Day Deal,2024-10-25,2024-11-01,16.3
+59,Prime Day Deal #1058,BOGO,2025-02-16,2025-02-17,24.3
+60,Lightning Deal #1059,Subscribe & Save Boost,2025-11-17,2025-11-18,19.3

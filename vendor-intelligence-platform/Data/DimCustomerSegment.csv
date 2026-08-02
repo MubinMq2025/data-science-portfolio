@@ -1,0 +1,5 @@
+SegmentKey,SegmentName,Description
+1,Prime,Amazon Prime members
+2,Non-Prime,Non-Prime marketplace customers
+3,New Customer,First purchase within last 90 days
+4,Returning Customer,Repeat customers (2+ orders)

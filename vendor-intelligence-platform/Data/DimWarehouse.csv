@@ -1,0 +1,11 @@
+WarehouseKey,WarehouseCode,WarehouseName,RegionKey,WarehouseType,CapacityUnits
+1,SYD1,Sydney FC1,1,Fulfilment Centre,250000
+2,SYD2,Sydney FC2 (Kemps Creek),1,Fulfilment Centre,400000
+3,MEL1,Melbourne FC1,2,Fulfilment Centre,300000
+4,MEL2,Melbourne FC2 (Ravenhall),2,Fulfilment Centre,380000
+5,BNE1,Brisbane FC1,3,Fulfilment Centre,220000
+6,PER1,Perth FC1,4,Fulfilment Centre,180000
+7,ADL1,Adelaide Sort Centre,5,Sort Centre,90000
+8,SYD3,Sydney Prime Now Hub,1,Last Mile,40000
+9,MEL3,Melbourne Prime Now Hub,2,Last Mile,40000
+10,BNE2,Brisbane Sort Centre,3,Sort Centre,70000
