@@ -1,0 +1,146 @@
+relationship d34cac5c-394d-4570-bb11-09014dbd607a
+	fromColumn: FactSales.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 69449a32-bf5d-4ee5-9222-0e6e358f5665
+	fromColumn: FactSales.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship f5d26dd9-db74-4224-a903-0ae7d19f20e5
+	fromColumn: FactSales.VendorKey
+	toColumn: DimVendor.VendorKey
+
+relationship 1d8a6d64-b918-4f65-8a98-2bb5cfdd0a9b
+	fromColumn: FactSales.RegionKey
+	toColumn: DimRegion.RegionKey
+
+relationship 942712f8-3c43-4108-87fc-efa475cde62e
+	fromColumn: FactSales.WarehouseKey
+	toColumn: DimWarehouse.WarehouseKey
+
+relationship 82123375-d8ee-44bc-8785-3bf5ac337941
+	fromColumn: FactSales.CustomerSegmentKey
+	toColumn: DimCustomerSegment.SegmentKey
+
+relationship 4a6f5fce-4303-4050-8d3b-bcc23f3a3c7d
+	fromColumn: FactInventory.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 3e9c5284-cb20-4482-9aa2-c887cd398c4e
+	fromColumn: FactInventory.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 1a845344-a3a0-4d5c-8cab-ffea69d7bf9c
+	fromColumn: FactInventory.WarehouseKey
+	toColumn: DimWarehouse.WarehouseKey
+
+relationship 52f5d2ce-3ab6-40da-a9ff-23414321e536
+	fromColumn: FactTraffic.DateKey
+	toColumn: DimDate.DateKey
+
+relationship f1d6d787-064c-4cf4-8e06-ff7afc8c3dc6
+	fromColumn: FactTraffic.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 7b70fe96-6fc7-4fa9-bbd0-a9bb732cb51a
+	fromColumn: FactTraffic.RegionKey
+	toColumn: DimRegion.RegionKey
+
+relationship 498b8e67-39d9-4829-ae54-fcd7b38ee356
+	fromColumn: FactForecast.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 3ac08c5e-7f12-41d7-8180-3f0912f4f499
+	fromColumn: FactForecast.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 131fb2e7-5d48-4c19-b101-248eda3f0fc8
+	fromColumn: FactAdvertising.DateKey
+	toColumn: DimDate.DateKey
+
+relationship d5d25034-be09-4ff3-a56d-db984b4e863c
+	fromColumn: FactAdvertising.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship f51e705e-b4a3-444c-ad89-a857653b0f47
+	fromColumn: FactReturns.DateKey
+	toColumn: DimDate.DateKey
+
+relationship c3d6665f-861e-4375-8231-0c8ac39e0aa2
+	fromColumn: FactReturns.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 749a493b-0e3a-48f5-8730-87f210dbda2e
+	fromColumn: FactTargets.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 5c67e03e-1646-4c34-ab4a-868b54e41737
+	fromColumn: FactTargets.VendorKey
+	toColumn: DimVendor.VendorKey
+
+relationship 1c5ce997-b0bd-4605-aca8-68fe1a31eb76
+	fromColumn: FactPricing.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 0fd08dcc-b308-44d9-8470-9c4680191673
+	fromColumn: FactPricing.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 8f76ee1d-cdaa-4908-bc58-3ff4eb3cd6a0
+	fromColumn: FactPromotions.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 477710f9-6ba7-44c0-9336-b8fe51aef7f5
+	fromColumn: FactPromotions.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship 96e1398d-a8f1-4e93-b58c-ff026d39f7d6
+	fromColumn: FactPromotions.PromotionKey
+	toColumn: DimPromotion.PromotionKey
+
+relationship 5cf22e75-752a-4eff-b80a-c817f741d844
+	fromColumn: FactAvailability.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 19e0c1e6-72e7-4940-bfe1-cf1e90ababa0
+	fromColumn: FactAvailability.ProductKey
+	toColumn: DimProduct.ProductKey
+
+relationship fe604dc8-d346-446f-8a7b-356d98c91167
+	fromColumn: FactAvailability.WarehouseKey
+	toColumn: DimWarehouse.WarehouseKey
+
+relationship ad561ee1-d87d-494d-b017-a0095d6d4ace
+	fromColumn: DimProduct.CategoryKey
+	toColumn: DimCategory.CategoryKey
+
+relationship 88ececad-4d95-4145-bb92-5588aa9052bb
+	isActive: false
+	fromColumn: DimCalendar.DateKey
+	toColumn: DimDate.DateKey
+
+relationship 84b2888f-0671-4160-947e-aa2802125479
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimDate.Date
+	toColumn: LocalDateTable_8fe99fb8-e177-438d-b3f9-baf96c69aa26.Date
+
+relationship 9a780ea4-0704-4757-a280-df2d0e3ae44d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimVendor.OnboardDate
+	toColumn: LocalDateTable_8741e79e-342a-4c6b-863f-eca2af96d9e7.Date
+
+relationship 711125b2-3161-45f1-a536-18b99bf64b99
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimProduct.LaunchDate
+	toColumn: LocalDateTable_4f6e233e-a969-44f4-9087-df31752ae407.Date
+
+relationship 42cec70b-8e44-42c0-a161-b9f17e346023
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimPromotion.StartDate
+	toColumn: LocalDateTable_f20d6c27-32fe-4ba9-a0ec-99d089da836e.Date
+
+relationship 592d1061-e7f7-48db-808a-dfa1c53d7a1e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DimPromotion.EndDate
+	toColumn: LocalDateTable_bcf5cee5-4ffe-4f78-a56f-2b20fc752b2a.Date
+

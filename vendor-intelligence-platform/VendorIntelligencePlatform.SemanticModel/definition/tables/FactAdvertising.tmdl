@@ -1,0 +1,86 @@
+table FactAdvertising
+	lineageTag: 66572c79-7fa8-4ff7-80b7-05ffc991af19
+
+	column AdvertisingKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e350938a-4a67-48e0-9c93-da856ab16314
+		summarizeBy: none
+		sourceColumn: AdvertisingKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 71065707-a555-40a4-8dbd-4bd9fdbfacf7
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 31d93ae6-1e9c-40a9-9239-e7ae6f40fc32
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampaignType
+		dataType: string
+		lineageTag: 692ba421-49de-423c-b94e-e71afd0b6501
+		summarizeBy: none
+		sourceColumn: CampaignType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Impressions
+		dataType: int64
+		formatString: 0
+		lineageTag: c2247560-cae1-4463-8c82-b71be2348ef0
+		summarizeBy: sum
+		sourceColumn: Impressions
+
+		annotation SummarizationSetBy = Automatic
+
+	column Clicks
+		dataType: int64
+		formatString: 0
+		lineageTag: 991459d5-4305-474b-8977-b758dd9a3df9
+		summarizeBy: sum
+		sourceColumn: Clicks
+
+		annotation SummarizationSetBy = Automatic
+
+	column AdSpend
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: e45b168d-4035-4ea5-b980-354591dc0db6
+		summarizeBy: sum
+		sourceColumn: AdSpend
+
+		annotation SummarizationSetBy = Automatic
+
+	column AdSales
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 7ded5322-ead3-495d-98b9-ab0be55318ac
+		summarizeBy: sum
+		sourceColumn: AdSales
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAdvertising = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactAdvertising.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"AdvertisingKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"CampaignType", type text},{"Impressions", Int64.Type},{"Clicks", Int64.Type},{"AdSpend", type number},{"AdSales", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

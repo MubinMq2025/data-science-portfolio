@@ -1,0 +1,649 @@
+table 'KPI Measures'
+	lineageTag: c26f3590-f4c1-47f8-9606-73118019868c
+
+	measure 'Total Revenue' = SUM(FactSales[Revenue])
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: b6843bc7-3a36-4c6a-8300-95a73e45c32a
+
+	measure 'Total Units Sold' = SUM(FactSales[Units])
+		formatString: #,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 28a0af80-ba3f-4624-ac89-0e006ca18568
+
+	measure 'Total COGS' = SUM(FactSales[COGS])
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 20cbd38c-407d-48c1-a1ea-59d0c58331e8
+
+	measure 'Total Discount Value' = SUM(FactSales[DiscountValue])
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 56c24609-e29d-4e3f-8186-8ae7d82e0a77
+
+	measure 'Gross Profit' = [Total Revenue] - [Total COGS]
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: e0ead0a3-82b6-4078-92a4-94902c926262
+
+	measure 'Gross Margin %' = DIVIDE([Gross Profit], [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 8d4696e1-84b0-48a9-afe4-051eb616b1a7
+
+	measure 'Contribution Margin' = [Gross Profit] - [Total Discount Value]
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 8fe62e6b-bd0f-4efc-a2a9-4d73c849072c
+
+	measure 'Contribution Margin %' = DIVIDE([Contribution Margin], [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 09316c78-4972-49ef-9e98-684127888f7d
+
+	measure 'Average Selling Price' = DIVIDE([Total Revenue], [Total Units Sold])
+		formatString: \$#,##0.00
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 54f36bc6-099e-418e-99b7-9411dbed10f1
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], DISTINCTCOUNT(FactSales[SalesKey]))
+		formatString: \$#,##0.00
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 28014aec-8f6d-4be6-8285-ec9ad23c7ee9
+
+	measure 'Units per Transaction' = AVERAGE(FactSales[Units])
+		formatString: #,##0.00
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 40b3ff8e-873f-4a0d-abaa-c2b8a4c8b3ab
+
+	measure 'Revenue LY' = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR(DimDate[Date]))
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 93371019-9939-4dba-a1a0-8db7a50dd936
+
+	measure 'Revenue YoY %' = DIVIDE([Total Revenue] - [Revenue LY], [Revenue LY])
+		formatString: 0.0%
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 0b82aff9-fc6c-41df-9b5f-03886cafcd2a
+
+	measure 'Revenue MoM %' =
+			VAR CurrM = [Total Revenue]
+			VAR PrevM = CALCULATE([Total Revenue], DATEADD(DimDate[Date], -1, MONTH))
+			RETURN DIVIDE(CurrM - PrevM, PrevM)
+		formatString: 0.0%
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 8bf29f43-c4c2-4506-bd80-32c2a60e03e7
+
+	measure 'Rolling 12M Revenue' = CALCULATE([Total Revenue], DATESINPERIOD(DimDate[Date], MAX(DimDate[Date]), -12, MONTH))
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: e364a371-fe08-4bb0-8b7c-402c78ff2aae
+
+	measure 'Rolling 12M Gross Margin %' =
+			VAR R12Rev = [Rolling 12M Revenue]
+			VAR R12COGS = CALCULATE([Total COGS], DATESINPERIOD(DimDate[Date], MAX(DimDate[Date]), -12, MONTH))
+			RETURN DIVIDE(R12Rev - R12COGS, R12Rev)
+		formatString: 0.0%
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 4daf6615-a9e7-4053-8179-1a706a1033ce
+
+	measure 'Revenue per Vendor' = DIVIDE([Total Revenue], DISTINCTCOUNT(FactSales[VendorKey]))
+		formatString: \$#,##0
+		displayFolder: 01 Revenue & Profitability
+		lineageTag: 10647eb4-3850-45d8-99b3-5f4f8e97534b
+
+	measure 'On Hand Units' = SUM(FactInventory[OnHandUnits])
+		formatString: #,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 0c3902fc-116f-4e92-95f5-07ce488ed516
+
+	measure 'In Transit Units' = SUM(FactInventory[InTransitUnits])
+		formatString: #,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: e153040c-72f8-409b-9936-3e37248ee977
+
+	measure 'Stockout Events' = SUM(FactInventory[StockoutFlag])
+		formatString: #,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: c1a20643-4bb8-46ba-ae67-f0dca79dadfc
+
+	measure 'Stockout Rate %' = DIVIDE([Stockout Events], COUNTROWS(FactInventory))
+		formatString: 0.0%
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 2b8971b5-63bd-453f-ba50-8ecdfda9687e
+
+	measure 'Fill Rate %' = 1 - [Stockout Rate %]
+		formatString: 0.0%
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 62ba30ee-f801-446b-b41b-821525c027d9
+
+	measure 'Inventory Value' = SUMX(FactInventory, FactInventory[OnHandUnits] * RELATED(DimProduct[UnitCost]))
+		formatString: \$#,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 7213a876-17c4-4344-b5c7-77d34e5c7ddc
+
+	measure 'Inventory Turns' = DIVIDE([Total COGS], [Inventory Value])
+		formatString: #,##0.00
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 17b1d3ad-2b40-4d27-8521-82e10d187f33
+
+	measure 'Days of Supply' = DIVIDE([On Hand Units], DIVIDE([Total Units Sold], 365))
+		formatString: #,##0.00
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 01ea50c2-bcfb-4746-a692-4972908c860d
+
+	measure 'Weeks of Cover' = DIVIDE([Days of Supply], 7)
+		formatString: #,##0.00
+		displayFolder: 02 Inventory & Supply
+		lineageTag: b5cbcf2a-d868-4142-93e7-e490f7c2c42d
+
+	measure 'Excess Inventory Value' = SUMX(FILTER(FactInventory, FactInventory[OnHandUnits] > FactInventory[ReorderPoint] * 3), FactInventory[OnHandUnits] * RELATED(DimProduct[UnitCost]))
+		formatString: \$#,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: e3eb07ab-d208-4bac-8d52-42aea07c94d2
+
+	measure 'Lost Sales Estimate' = SUMX(FILTER(FactInventory, FactInventory[StockoutFlag] = 1), FactInventory[ReorderPoint] * RELATED(DimProduct[ListPrice]) * 0.1)
+		formatString: \$#,##0
+		displayFolder: 02 Inventory & Supply
+		lineageTag: c9af3675-b5e7-43b8-bb31-576b1798772e
+
+	measure 'Availability %' = AVERAGE(FactAvailability[AvailabilityPct]) / 100
+		formatString: 0.0%
+		displayFolder: 02 Inventory & Supply
+		lineageTag: 40b8e8d8-7f64-472b-a093-1e2fa471d21b
+
+	measure 'Forecast Units' = SUM(FactForecast[ForecastUnits])
+		formatString: #,##0
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 5e27cd39-a8e5-4d02-a55a-6d55ae900b34
+
+	measure 'Forecast Table Actual Units' = SUM(FactForecast[ActualUnits])
+		formatString: #,##0
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 0c020c26-c11b-43ed-a505-fc6537b68928
+
+	measure 'Forecast Revenue' = SUM(FactForecast[ForecastRevenue])
+		formatString: \$#,##0
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 4e14be17-b94a-47d6-b7d2-0eda1f201b73
+
+	measure 'Forecast Table Actual Revenue' = SUM(FactForecast[ActualRevenue])
+		formatString: \$#,##0
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 91e56078-159d-41c0-a283-95d5b14526b6
+
+	measure 'Forecast Error' = [Forecast Table Actual Units] - [Forecast Units]
+		formatString: #,##0
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: e55324df-13a2-4139-a873-fd7dbd80749c
+
+	measure 'Forecast Bias %' = DIVIDE([Forecast Error], [Forecast Units])
+		formatString: 0.0%
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: dcad4806-d95e-4002-a605-e00bfb27a466
+
+	measure MAPE = AVERAGEX(FactForecast, DIVIDE(ABS(FactForecast[ActualUnits] - FactForecast[ForecastUnits]), FactForecast[ActualUnits]))
+		formatString: 0.0%
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 058ef55e-79e8-4a8b-96b7-bac2fe3db566
+
+	measure 'Forecast Accuracy %' = 1 - [MAPE]
+		formatString: 0.0%
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 63af3c94-d057-4ae0-9903-964139436df1
+
+	measure 'Forecast Confidence' = SWITCH(TRUE(), [MAPE] <= 0.1, "High", [MAPE] <= 0.25, "Medium", "Low")
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: 5eca3d84-be56-4af7-ab6b-59a30bd9cd46
+
+	measure 'Demand Variance' = VARX.P(FactForecast, FactForecast[ActualUnits] - FactForecast[ForecastUnits])
+		formatString: #,##0.00
+		displayFolder: 03 Forecast Accuracy
+		lineageTag: d8ca5832-81f8-4d92-bf96-4983fbe0780e
+
+	measure 'Active Vendor Count' = DISTINCTCOUNT(FactSales[VendorKey])
+		formatString: #,##0
+		displayFolder: 04 Vendor Performance
+		lineageTag: c74e8c59-ac86-448d-b266-e12bd753cff2
+
+	measure 'Vendor Revenue Rank' = RANKX(ALL(DimVendor[VendorName]), [Total Revenue])
+		formatString: #,##0
+		displayFolder: 04 Vendor Performance
+		lineageTag: d28b4958-e21e-4b93-be0d-8d13c6453f0b
+
+	measure 'Top 10 Vendor Revenue' = CALCULATE([Total Revenue], TOPN(10, ALL(DimVendor[VendorName]), [Total Revenue]))
+		formatString: \$#,##0
+		displayFolder: 04 Vendor Performance
+		lineageTag: 57892855-63ea-4b12-9dae-5433b3c9e643
+
+	measure 'Bottom 10 Vendor Revenue' = CALCULATE([Total Revenue], TOPN(10, ALL(DimVendor[VendorName]), [Total Revenue], ASC))
+		formatString: \$#,##0
+		displayFolder: 04 Vendor Performance
+		lineageTag: ea1ea5de-bea6-44df-b001-19c21c135999
+
+	measure 'Vendor Market Share %' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], ALL(DimVendor)))
+		formatString: 0.0%
+		displayFolder: 04 Vendor Performance
+		lineageTag: 15885939-4b0b-4e10-a2ee-f08de587ad5d
+
+	measure 'Supplier Reliability %' = 1 - DIVIDE(CALCULATE(COUNTROWS(FactInventory), FactInventory[StockoutFlag] = 1), COUNTROWS(FactInventory))
+		formatString: 0.0%
+		displayFolder: 04 Vendor Performance
+		lineageTag: e04611f5-0d00-4acf-a975-7d2bcc7cef6c
+
+	measure 'Vendor Health Score' =
+			VAR RevScore = MIN(100, DIVIDE([Total Revenue], 500000) * 100)
+			VAR RelScore = [Supplier Reliability %] * 100
+			VAR MarginScore = [Gross Margin %] * 100
+			RETURN (RevScore * 0.4) + (RelScore * 0.3) + (MarginScore * 0.3)
+		formatString: #,##0.00
+		displayFolder: 04 Vendor Performance
+		lineageTag: 806a4e41-6b96-4790-a884-d29b833aee98
+
+	measure 'Strategic Vendor Revenue %' = DIVIDE(CALCULATE([Total Revenue], DimVendor[VendorTier] = "Strategic"), [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 04 Vendor Performance
+		lineageTag: 2dcde9bd-007d-407f-ac7b-2dfe89baa28a
+
+	measure 'Supply Risk Score' = 100 - ([Supplier Reliability %] * 100)
+		formatString: #,##0.00
+		displayFolder: 04 Vendor Performance
+		lineageTag: daccda4a-707f-477f-8019-f1030ab8a56e
+
+	measure 'New Vendor Count (Last 12M)' = CALCULATE(DISTINCTCOUNT(DimVendor[VendorKey]), DimVendor[OnboardDate] >= EDATE(TODAY(), -12))
+		formatString: #,##0
+		displayFolder: 04 Vendor Performance
+		lineageTag: 548c7931-60c9-4b2b-b271-01990eb59093
+
+	measure 'Average List Price' = AVERAGE(FactPricing[ListPrice])
+		formatString: \$#,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 5bdb382f-b7d7-4752-84ea-4bb66e957595
+
+	measure 'Average Selling Price (Pricing)' = AVERAGE(FactPricing[SellingPrice])
+		formatString: \$#,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 02faca0c-64ab-4683-b637-4cfbd5883976
+
+	measure 'Average Competitor Price' = AVERAGE(FactPricing[CompetitorPrice])
+		formatString: \$#,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: edd01190-abba-4a6e-8ea0-2b61fdc3d686
+
+	measure 'Price Index vs Competitor' = DIVIDE([Average Selling Price (Pricing)], [Average Competitor Price])
+		formatString: #,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: d09b2dab-8171-4e29-bcb3-b9e89002e514
+
+	measure 'Discount Depth %' = DIVIDE([Average List Price] - [Average Selling Price (Pricing)], [Average List Price])
+		formatString: 0.0%
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 84391493-9d2a-4f99-8c25-e9ccdba9ed1e
+
+	measure 'Price Variance vs List' = [Average Selling Price (Pricing)] - [Average List Price]
+		formatString: \$#,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 9d88c048-a53e-4780-ad86-6c27829be904
+
+	measure 'Price Elasticity Index' =
+			VAR PctPriceChange = DIVIDE([Price Variance vs List], [Average List Price])
+			VAR PriorUnits = CALCULATE([Total Units Sold], DATEADD(DimDate[Date], -1, MONTH))
+			VAR PctUnitsChange = DIVIDE([Total Units Sold] - PriorUnits, PriorUnits)
+			RETURN DIVIDE(PctUnitsChange, PctPriceChange)
+		formatString: #,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: f318d190-7acf-4b1c-b00f-287acbb30c75
+
+	measure 'MAP Compliance %' = DIVIDE(CALCULATE(COUNTROWS(FactPricing), FactPricing[SellingPrice] >= FactPricing[ListPrice] * 0.85), COUNTROWS(FactPricing))
+		formatString: 0.0%
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 8183a91d-8b8e-471b-8078-3a1b5abc6134
+
+	measure 'Net Price' = [Average Selling Price (Pricing)]
+		formatString: \$#,##0.00
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: d35e651e-afa4-49cc-98eb-a92e4df9fcd1
+
+	measure 'Product Count Active' = CALCULATE(DISTINCTCOUNT(DimProduct[ProductKey]), DimProduct[Status] = "Active")
+		formatString: #,##0
+		displayFolder: 05 Pricing & Elasticity
+		lineageTag: 97dbf887-51e4-421e-adb7-9d81618434c7
+
+	measure 'Promo Units' = SUM(FactPromotions[PromoUnits])
+		formatString: #,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 1e0e0e43-da23-4394-a8eb-d6f84e1c6824
+
+	measure 'Promo Revenue' = SUM(FactPromotions[PromoRevenue])
+		formatString: \$#,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 5513e8e6-f4f2-4973-9e4e-4868a5000bfc
+
+	measure 'Promo Revenue Share %' = DIVIDE([Promo Revenue], [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: df94b85f-057d-41f9-9088-93c09ec3660e
+
+	measure 'Promo Discount Cost' = SUMX(FactPromotions, (RELATED(DimPromotion[DiscountDepthPct]) / 100) * FactPromotions[PromoUnits] * RELATED(DimProduct[ListPrice]))
+		formatString: \$#,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 63fc029e-444b-427f-aba7-1d54720f0118
+
+	measure 'Promotion ROI' = DIVIDE([Promo Revenue] - [Promo Discount Cost], [Promo Discount Cost])
+		formatString: 0.0%
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: aea55389-0374-40ff-8fd2-0363652452cb
+
+	measure 'Ad Spend' = SUM(FactAdvertising[AdSpend])
+		formatString: \$#,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 349ee8c1-3563-410d-9277-d77043c5ce7d
+
+	measure 'Ad Sales' = SUM(FactAdvertising[AdSales])
+		formatString: \$#,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 206fd662-a421-4a53-8fb6-5de1a7720b35
+
+	measure ROAS = DIVIDE([Ad Sales], [Ad Spend])
+		formatString: #,##0.00
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 738c4417-544c-4a8e-84ef-508c7ad29d0c
+
+	measure 'ACOS %' = DIVIDE([Ad Spend], [Ad Sales])
+		formatString: 0.0%
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 73b9673d-1cd8-450b-80ec-a65c1c26c170
+
+	measure 'Ad Spend % of Revenue' = DIVIDE([Ad Spend], [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 984dbce7-dc09-44e8-9e6f-e09571041647
+
+	measure Impressions = SUM(FactAdvertising[Impressions])
+		formatString: #,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: c17f9022-7df5-427b-8fdc-1cf8f6defea7
+
+	measure Clicks = SUM(FactAdvertising[Clicks])
+		formatString: #,##0
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 2c7250b4-e8a5-4a0f-82f2-33aea7a8fcf1
+
+	measure 'CTR %' = DIVIDE([Clicks], [Impressions])
+		formatString: 0.00%
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 3fe602d0-7a87-42fa-81ee-028341dab858
+
+	measure CPC = DIVIDE([Ad Spend], [Clicks])
+		formatString: \$#,##0.00
+		displayFolder: 06 Promotions & Advertising
+		lineageTag: 08b56c47-452f-47e8-ac91-67352e2e0410
+
+	measure 'Return Units' = SUM(FactReturns[ReturnUnits])
+		formatString: #,##0
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 49651dff-5033-4696-9a64-a43173b4ff66
+
+	measure 'Return Value' = SUM(FactReturns[ReturnValue])
+		formatString: \$#,##0
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: e12828a9-e169-4f53-a342-9b893c6bd3ce
+
+	measure 'Return Rate %' = DIVIDE([Return Units], [Total Units Sold])
+		formatString: 0.0%
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 3e6c4750-64ea-48b9-877e-d3906e5cf666
+
+	measure 'Return Value % of Revenue' = DIVIDE([Return Value], [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 4adf9db0-438f-4a5e-afe9-a14d12f74e69
+
+	measure 'Defect Return Rate %' = DIVIDE(CALCULATE([Return Units], FactReturns[ReturnReason] = "Defective/Not Working"), [Return Units])
+		formatString: 0.0%
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 430a7a32-0695-4973-bbc2-53b0a1697780
+
+	measure 'Estimated NPS' = 100 - ([Return Rate %] * 250)
+		formatString: #,##0.00
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 10224447-419a-4ee1-9d89-9720a29ffdd9
+
+	measure 'Estimated CSAT %' = 1 - ([Return Rate %] * 1.8)
+		formatString: 0.0%
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 51412029-e500-42a4-8067-968e64dcc407
+
+	measure 'Content Quality Score' = 100 - (DIVIDE(CALCULATE(COUNTROWS(FactReturns), FactReturns[ReturnReason] = "Not as Described"), COUNTROWS(FactReturns)) * 100)
+		formatString: #,##0.00
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 2065a128-4ab0-4d62-8b26-c84139e698fb
+
+	measure 'Complaint Rate %' = [Return Rate %]
+		formatString: 0.0%
+		displayFolder: 07 Customer Experience & Returns
+		lineageTag: 215e9b23-18e5-419b-8ce5-75efdf925062
+
+	measure 'Total Page Views' = SUM(FactTraffic[PageViews])
+		formatString: #,##0
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: 1b932cd3-33e5-4f2d-a383-4431930e9597
+
+	measure 'Total Sessions' = SUM(FactTraffic[Sessions])
+		formatString: #,##0
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: 1a9df089-8270-400e-adaf-9f0b5816d72f
+
+	measure 'Total Glance Views' = SUM(FactTraffic[GlanceViews])
+		formatString: #,##0
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: 407b618f-04a4-45a6-a14b-85ba1b3b9779
+
+	measure 'Add to Cart Count' = SUM(FactTraffic[AddToCart])
+		formatString: #,##0
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: 8a8ff288-c5e8-4ad0-b6dc-b4dce47ab32a
+
+	measure 'Orders (Traffic)' = SUM(FactTraffic[Orders])
+		formatString: #,##0
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: ee048f0c-cb74-44c3-9ca2-cb5056ecf752
+
+	measure 'Conversion Rate %' = DIVIDE([Orders (Traffic)], [Total Glance Views])
+		formatString: 0.0%
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: d6e7818e-9a50-44b3-848b-25ec837740b0
+
+	measure 'Add to Cart Rate %' = DIVIDE([Add to Cart Count], [Total Glance Views])
+		formatString: 0.0%
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: af2ec28c-e48c-4792-bfb8-69d3c0993a14
+
+	measure 'Browse to Buy Rate %' = DIVIDE([Orders (Traffic)], [Add to Cart Count])
+		formatString: 0.0%
+		displayFolder: 08 Traffic & Conversion
+		lineageTag: f7c56701-6542-48f8-b7ed-03b563b898fe
+
+	measure 'Target Revenue' = SUM(FactTargets[TargetRevenue])
+		formatString: \$#,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: c4826d46-7a54-4cd9-b024-567e11bc9f9d
+
+	measure 'Target Units' = SUM(FactTargets[TargetUnits])
+		formatString: #,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: 153e177d-5f36-43f8-be2d-243a45de262b
+
+	measure 'Budget Cost' = SUM(FactTargets[BudgetCost])
+		formatString: \$#,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: 24b070e6-1a73-477c-8932-a7a7fc8d1345
+
+	measure 'Target Attainment %' = DIVIDE([Total Revenue], [Target Revenue])
+		formatString: 0.0%
+		displayFolder: 09 Targets & Budget
+		lineageTag: cded987c-e3e1-428a-9804-6adda822612d
+
+	measure 'Budget Variance $' = [Total COGS] - [Budget Cost]
+		formatString: \$#,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: a5cbd896-a84a-42d3-8844-2eceb21a4fd3
+
+	measure 'Budget Variance %' = DIVIDE([Budget Variance $], [Budget Cost])
+		formatString: 0.0%
+		displayFolder: 09 Targets & Budget
+		lineageTag: d31f20e0-a203-4a99-9d4a-45b193a633cb
+
+	measure 'Revenue Gap to Target' = [Target Revenue] - [Total Revenue]
+		formatString: \$#,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: c13d08af-b505-4159-9b22-02467a158712
+
+	measure 'Run Rate (Annualised)' = [Rolling 12M Revenue]
+		formatString: \$#,##0
+		displayFolder: 09 Targets & Budget
+		lineageTag: ca948213-3f1f-4a63-81b7-ead9a7cabce6
+
+	measure 'Market Share % by Category' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], ALL(DimCategory)))
+		formatString: 0.0%
+		displayFolder: 10 Risk & Growth
+		lineageTag: 2e597bde-9202-4bc2-8562-a4d25db1d6b4
+
+	measure 'Category Growth %' = [Revenue YoY %]
+		formatString: 0.0%
+		displayFolder: 10 Risk & Growth
+		lineageTag: 6e6151f9-541e-4bcf-b5e8-75e9461b63a6
+
+	measure 'Growth Opportunity $' = [Target Revenue] - [Total Revenue]
+		formatString: \$#,##0
+		displayFolder: 10 Risk & Growth
+		lineageTag: d79e88d1-09b5-47c6-b5f2-0bf1aa6a49d5
+
+	measure 'Risk Exposure $' = [Lost Sales Estimate] + [Excess Inventory Value]
+		formatString: \$#,##0
+		displayFolder: 10 Risk & Growth
+		lineageTag: 303402a0-7ca4-4760-bbde-f380d81c5d59
+
+	measure 'Demand Spike Flag' = IF(CALCULATE([Total Units Sold], DimDate[IsHoliday] = TRUE()) > 0, "Peak Period", "Normal")
+		displayFolder: 10 Risk & Growth
+		lineageTag: 6c23b8e4-632b-4800-8113-e9a514fb89cc
+
+	measure 'ABC Classification' =
+			VAR RevShare = DIVIDE(CALCULATE([Total Revenue], ALLEXCEPT(DimProduct, DimProduct[ProductKey])), CALCULATE([Total Revenue], ALL(DimProduct)))
+			RETURN SWITCH(TRUE(), RevShare >= 0.001, "A", RevShare >= 0.0002, "B", "C")
+		displayFolder: 10 Risk & Growth
+		lineageTag: ed31f604-f76e-4d72-ad4b-2dcc13c48926
+
+	measure 'XYZ Classification' =
+			VAR CV = DIVIDE(CALCULATE(STDEVX.P(FactSales, FactSales[Units])), CALCULATE(AVERAGEX(FactSales, FactSales[Units])))
+			RETURN SWITCH(TRUE(), CV < 0.5, "X", CV < 1, "Y", "Z")
+		displayFolder: 10 Risk & Growth
+		lineageTag: 08283e18-468b-45d7-a432-486e2fcf0994
+
+	measure 'Pareto Revenue % (Top 20% Products)' =
+			VAR TopProducts = TOPN(ROUNDUP(DISTINCTCOUNT(DimProduct[ProductKey]) * 0.2, 0), ALL(DimProduct[ProductName]), [Total Revenue])
+			RETURN DIVIDE(CALCULATE([Total Revenue], TopProducts), CALCULATE([Total Revenue], ALL(DimProduct)))
+		formatString: 0.0%
+		displayFolder: 10 Risk & Growth
+		lineageTag: 1c6fc633-2249-43f3-ac45-262180f7bc15
+
+	measure 'YTD Revenue' = TOTALYTD([Total Revenue], DimDate[Date])
+		formatString: \$#,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: c8370dc1-43b6-423f-9f89-76f15142a2b8
+
+	measure 'QTD Revenue' = TOTALQTD([Total Revenue], DimDate[Date])
+		formatString: \$#,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: d9767c8b-8f7a-4c71-82cd-9bb4017b8c00
+
+	measure 'MTD Revenue' = TOTALMTD([Total Revenue], DimDate[Date])
+		formatString: \$#,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: 6b7668a5-49a2-43cd-8897-ab891a8baa3c
+
+	measure 'Prior Period Revenue' = CALCULATE([Total Revenue], DATEADD(DimDate[Date], -1, MONTH))
+		formatString: \$#,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: e0aadc8e-c609-432d-8ad0-7ef6339125a8
+
+	measure '% of Total Revenue' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], ALL(DimProduct), ALL(DimVendor), ALL(DimRegion)))
+		formatString: 0.0%
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: f7fa9805-b59b-48d2-a206-733307cc701b
+
+	measure 'Fiscal YTD Revenue' = CALCULATE([Total Revenue], USERELATIONSHIP(DimCalendar[DateKey], DimDate[DateKey]))
+		formatString: \$#,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: f24a4c26-f31d-480f-9631-fa0deadda036
+
+	measure 'Rank within Category' = RANKX(ALLEXCEPT(DimProduct, DimCategory[CategoryKey]), [Total Revenue])
+		formatString: #,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: 2d51dc97-a65d-4681-b5d4-cff8d2501dfc
+
+	measure 'Warehouse Capacity Utilisation %' = DIVIDE([On Hand Units], SUM(DimWarehouse[CapacityUnits]))
+		formatString: 0.0%
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: aed021bc-597a-4d02-b88c-8938759eae9f
+
+	measure 'Sell-Through Rate %' = DIVIDE([Total Units Sold], [Total Units Sold] + [On Hand Units])
+		formatString: 0.0%
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: fc4c5082-59a9-472f-931f-a45380a156e1
+
+	measure 'Peak Period Revenue Share %' = DIVIDE(CALCULATE([Total Revenue], DimDate[IsHoliday] = TRUE()), [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: 6b2e4c78-a7d6-45df-8ac0-824c716a5586
+
+	measure 'Weekend Revenue Share %' = DIVIDE(CALCULATE([Total Revenue], DimDate[IsWeekend] = TRUE()), [Total Revenue])
+		formatString: 0.0%
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: 61bebd8b-022c-43d9-8f85-c6396de8494f
+
+	measure 'Category Count' = DISTINCTCOUNT(DimCategory[CategoryKey])
+		formatString: #,##0
+		displayFolder: 11 Time Intelligence & Utility
+		lineageTag: e4adebcf-357a-4248-a45d-d56411bc2a5b
+
+	measure 'Selected Metric Value' = SWITCH(TRUE(), SELECTEDVALUE('Metric Selector'[Metric Selector]) = "ROAS", [ROAS], [Total Revenue])
+		formatString: #,##0.00
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: 12512a30-787a-45fb-a8a9-1a78a9e2e749
+
+	measure 'Top N Vendors Filter Rank' = RANKX(ALL(DimVendor[VendorName]), [Total Revenue], , DESC)
+		formatString: #,##0
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: 7d8bbb25-213b-4dcf-9bb9-f53327e01486
+
+	measure 'Bottom N Vendors Filter Rank' = RANKX(ALL(DimVendor[VendorName]), [Total Revenue], , ASC)
+		formatString: #,##0
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: fa8bd1ab-2904-4176-afb3-b67d40c34f90
+
+	measure 'Is Top 10 Vendor' = IF([Top N Vendors Filter Rank] <= 10, 1, 0)
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: 81804f56-7f46-490f-b889-3d4553f91fc8
+
+	measure 'Vendor Count Onboarded This FY' = CALCULATE(DISTINCTCOUNT(DimVendor[VendorKey]), YEAR(DimVendor[OnboardDate]) = YEAR(TODAY()))
+		formatString: #,##0
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: bac9ad8e-a967-4bb1-b185-fdacae4f5519
+
+	measure 'Region Count' = DISTINCTCOUNT(DimRegion[RegionKey])
+		formatString: #,##0
+		displayFolder: 12 Dynamic Ranking & Selector
+		lineageTag: 3466c4ba-15c8-41ad-b944-ebcbea5ccc56
+
+	column 'Measure Grouping'
+		lineageTag: e413f452-99f8-4648-a22f-a40cb81962ff
+		isNameInferred
+		sourceColumn: [Measure Grouping]
+
+	partition 'KPI Measures' = calculated
+		mode: import
+		source = ROW("Measure Grouping", BLANK())
+
+	annotation PBI_Id = 78bdf4c0-15d5-46cc-89d9-be8b9857205b
+

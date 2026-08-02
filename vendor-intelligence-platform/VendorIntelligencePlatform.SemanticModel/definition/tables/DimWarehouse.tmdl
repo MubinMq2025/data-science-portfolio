@@ -1,0 +1,66 @@
+table DimWarehouse
+	lineageTag: ecd9ad35-b6c3-4fda-9b10-6244d5ab7b49
+
+	column WarehouseKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a576a80-ade1-4864-9365-cba637aa92ae
+		summarizeBy: none
+		sourceColumn: WarehouseKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseCode
+		dataType: string
+		lineageTag: d4c74df0-8486-409e-8887-adf8605dc320
+		summarizeBy: none
+		sourceColumn: WarehouseCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseName
+		dataType: string
+		lineageTag: 244d463f-bf88-4ae6-b0cc-a7b4cb11f5e6
+		summarizeBy: none
+		sourceColumn: WarehouseName
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: a5402a64-a37a-485a-9b3c-cf79327237e1
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseType
+		dataType: string
+		lineageTag: d2cf0d50-de8d-4bbc-b3ee-8ceda3a86e95
+		summarizeBy: none
+		sourceColumn: WarehouseType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CapacityUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 03d1ea3c-3e32-45dc-9a5d-89d35064c9e1
+		summarizeBy: sum
+		sourceColumn: CapacityUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimWarehouse = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimWarehouse.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"WarehouseKey", Int64.Type},{"WarehouseCode", type text},{"WarehouseName", type text},{"RegionKey", Int64.Type},{"WarehouseType", type text},{"CapacityUnits", Int64.Type}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

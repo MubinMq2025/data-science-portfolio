@@ -1,0 +1,96 @@
+table FactTraffic
+	lineageTag: 66d70f22-a842-4c36-bd6b-7204b3419024
+
+	column TrafficKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3afbd73e-1e91-482a-999d-87ed94625069
+		summarizeBy: none
+		sourceColumn: TrafficKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: aab8e114-ddee-4095-a4d1-e7fec2ca1b18
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4bd4be1a-6a5e-4353-a996-0a4363644f81
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: af79f315-3f13-4fc2-845f-1f812089f5d7
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PageViews
+		dataType: int64
+		formatString: 0
+		lineageTag: f3867213-87b0-4167-9e4f-46aeedb334a3
+		summarizeBy: sum
+		sourceColumn: PageViews
+
+		annotation SummarizationSetBy = Automatic
+
+	column Sessions
+		dataType: int64
+		formatString: 0
+		lineageTag: 7dd40d39-8bdc-4ada-b403-3c4cd242068e
+		summarizeBy: sum
+		sourceColumn: Sessions
+
+		annotation SummarizationSetBy = Automatic
+
+	column GlanceViews
+		dataType: int64
+		formatString: 0
+		lineageTag: c2553853-def8-4d28-985f-fbf0b2f5429e
+		summarizeBy: sum
+		sourceColumn: GlanceViews
+
+		annotation SummarizationSetBy = Automatic
+
+	column AddToCart
+		dataType: int64
+		formatString: 0
+		lineageTag: 6991109b-3eba-4369-b96e-f670cdae2751
+		summarizeBy: sum
+		sourceColumn: AddToCart
+
+		annotation SummarizationSetBy = Automatic
+
+	column Orders
+		dataType: int64
+		formatString: 0
+		lineageTag: ca750cc0-2d5f-4d9a-b702-aea82f74c9ee
+		summarizeBy: sum
+		sourceColumn: Orders
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactTraffic = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactTraffic.csv"),[Delimiter=",", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"TrafficKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"RegionKey", Int64.Type},{"PageViews", Int64.Type},{"Sessions", Int64.Type},{"GlanceViews", Int64.Type},{"AddToCart", Int64.Type},{"Orders", Int64.Type}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

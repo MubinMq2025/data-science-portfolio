@@ -1,0 +1,32 @@
+table 'Metric Selector'
+	lineageTag: d1faa9fe-7aa7-41a9-87e7-18ffae63c319
+
+	column Value1
+		lineageTag: ca58fef4-3b8b-4282-a387-31d8016fa32d
+		isNameInferred
+		sourceColumn: [Value1]
+
+	column Value2
+		lineageTag: 5cbf70c8-79db-40c4-a386-95a8b341de6f
+		isNameInferred
+		sourceColumn: [Value2]
+
+	column Value3
+		lineageTag: 0c5e28e3-5883-422a-a4cc-d296f5834e10
+		isNameInferred
+		sourceColumn: [Value3]
+
+	partition 'Metric Selector' = calculated
+		mode: import
+		source =
+				{
+					("Total Revenue", NAMEOF('KPI Measures'[Total Revenue]), 0),
+					("Gross Margin %", NAMEOF('KPI Measures'[Gross Margin %]), 1),
+					("Units Sold", NAMEOF('KPI Measures'[Total Units Sold]), 2),
+					("Forecast Accuracy %", NAMEOF('KPI Measures'[Forecast Accuracy %]), 3),
+					("ROAS", NAMEOF('KPI Measures'[ROAS]), 4),
+					("Vendor Health Score", NAMEOF('KPI Measures'[Vendor Health Score]), 5)
+				}
+
+	annotation PBI_Id = 5d83de7e-efea-4de5-8c0f-85e1d497baf3
+

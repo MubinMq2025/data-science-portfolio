@@ -1,0 +1,88 @@
+table DimVendor
+	lineageTag: 43db5821-2b06-44e5-bfb7-7a7917b39547
+
+	column VendorKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5c2e4d6f-283e-47a3-91ab-bd3a4ac87250
+		summarizeBy: none
+		sourceColumn: VendorKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorName
+		dataType: string
+		lineageTag: 8cc4a356-734d-42f2-859e-6ba3d56d153a
+		summarizeBy: none
+		sourceColumn: VendorName
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorID
+		dataType: string
+		lineageTag: 2adf0355-f5b2-4ffc-a999-e2555daedf77
+		summarizeBy: none
+		sourceColumn: VendorID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorTier
+		dataType: string
+		lineageTag: 74dd2ff5-8ec3-41a9-98a5-a81f2d158b1e
+		summarizeBy: none
+		sourceColumn: VendorTier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 4cc45487-a436-4e2f-9830-99e40ebe847e
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnboardDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3f51e8b2-7e01-4667-8772-8812b833efdc
+		summarizeBy: none
+		sourceColumn: OnboardDate
+
+		variation Variation
+			isDefault
+			relationship: 9a780ea4-0704-4757-a280-df2d0e3ae44d
+			defaultHierarchy: LocalDateTable_8741e79e-342a-4c6b-863f-eca2af96d9e7.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column AccountManager
+		dataType: string
+		lineageTag: 2c5acd33-5a10-4a41-8238-eae0e6b32a88
+		summarizeBy: none
+		sourceColumn: AccountManager
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorSegment
+		dataType: string
+		lineageTag: 0baed746-0d9e-44cf-ae00-84f9fbed841f
+		summarizeBy: none
+		sourceColumn: VendorSegment
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimVendor = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimVendor.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"VendorKey", Int64.Type},{"VendorName", type text},{"VendorID", type text},{"VendorTier", type text},{"Country", type text},{"OnboardDate", type date},{"AccountManager", type text},{"VendorSegment", type text}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

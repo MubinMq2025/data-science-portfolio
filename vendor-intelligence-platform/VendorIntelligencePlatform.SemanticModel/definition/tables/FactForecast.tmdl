@@ -1,0 +1,78 @@
+table FactForecast
+	lineageTag: 16b8b18e-e595-4ae6-abd3-134451ee6f47
+
+	column ForecastKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1e870c26-57e4-4f54-ad55-925fea71105d
+		summarizeBy: none
+		sourceColumn: ForecastKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 6aaff35c-0d41-4e6f-bfb2-5761f4cb2781
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e7ab86b-332e-452e-91ef-f5f7cc611d40
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ForecastUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 02e2e13f-b035-46c7-bcbb-5f0cfd0af6a4
+		summarizeBy: sum
+		sourceColumn: ForecastUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column ForecastRevenue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 588d381b-ab9f-4de0-bb34-551f6ab91ed7
+		summarizeBy: sum
+		sourceColumn: ForecastRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActualUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 7a6c17c6-ada9-434e-8ec8-c0dbead19284
+		summarizeBy: sum
+		sourceColumn: ActualUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column ActualRevenue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 9cd02459-72e8-4b30-9c36-9e3578139e12
+		summarizeBy: sum
+		sourceColumn: ActualRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactForecast = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactForecast.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ForecastKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"ForecastUnits", Int64.Type},{"ForecastRevenue", type number},{"ActualUnits", Int64.Type},{"ActualRevenue", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

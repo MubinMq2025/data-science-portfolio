@@ -1,0 +1,116 @@
+table DimProduct
+	lineageTag: e0417f3f-1266-4143-9f53-69be46266aa1
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4d83a431-89ef-4f38-ba38-c8af581340fc
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductName
+		dataType: string
+		lineageTag: 482fa963-9e7a-4d34-9d65-c4c0b8ab0e69
+		summarizeBy: none
+		sourceColumn: ProductName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ASIN
+		dataType: string
+		lineageTag: 45114daa-1752-45f9-9a79-38354840627f
+		summarizeBy: none
+		sourceColumn: ASIN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 25ddecd6-fae5-4630-9def-d68ef5d97bdc
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column CategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e27f7a54-511c-49d4-8d1a-ad93658a572d
+		summarizeBy: none
+		sourceColumn: CategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubCategory
+		dataType: string
+		lineageTag: f9d286c0-873b-4f28-8415-334ea1c1869d
+		summarizeBy: none
+		sourceColumn: SubCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitCost
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 2de6eabc-9cd4-4325-bc7f-3a2acc284ac5
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 9f398cc5-71a3-4bf1-9daa-405f8fde1e6f
+		summarizeBy: sum
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column LaunchDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 00c82d32-868c-4bbb-839a-9c4cc7172aa6
+		summarizeBy: none
+		sourceColumn: LaunchDate
+
+		variation Variation
+			isDefault
+			relationship: 711125b2-3161-45f1-a536-18b99bf64b99
+			defaultHierarchy: LocalDateTable_4f6e233e-a969-44f4-9087-df31752ae407.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Status
+		dataType: string
+		lineageTag: e4fc865f-a543-4961-b111-21c1fe3c8960
+		summarizeBy: none
+		sourceColumn: Status
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f98b622f-44f3-4441-8ab5-94d2c0d48e1d
+		summarizeBy: count
+		sourceColumn: VendorKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProduct = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimProduct.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductKey", Int64.Type},{"ProductName", type text},{"ASIN", type text},{"Brand", type text},{"CategoryKey", Int64.Type},{"SubCategory", type text},{"UnitCost", type number},{"ListPrice", type number},{"LaunchDate", type date},{"Status", type text},{"VendorKey", Int64.Type}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

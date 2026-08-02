@@ -1,0 +1,114 @@
+table FactSales
+	lineageTag: b9455302-87b9-4f47-8c89-69fe5117b08f
+
+	column SalesKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3cab9c3d-a33d-40ec-995e-2609687dc0f1
+		summarizeBy: none
+		sourceColumn: SalesKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: d2ef577f-9b2e-4b56-80e3-c664ff4a3067
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: dfb1893c-6ffb-4289-8ee2-fd8822730336
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 83a414b9-d160-4689-bf1d-06fe69f8a4d0
+		summarizeBy: none
+		sourceColumn: VendorKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b1c798da-c9b0-48b6-bad3-dc3846c300af
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseKey
+		dataType: int64
+		formatString: 0
+		lineageTag: c8a96952-02fa-4c03-9aba-4f6ec69d74e6
+		summarizeBy: none
+		sourceColumn: WarehouseKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerSegmentKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 17065987-4e96-4cf0-b1ad-6c48e25bd702
+		summarizeBy: none
+		sourceColumn: CustomerSegmentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units
+		dataType: int64
+		formatString: 0
+		lineageTag: 35874568-d8be-4950-b891-909e851f4787
+		summarizeBy: sum
+		sourceColumn: Units
+
+		annotation SummarizationSetBy = Automatic
+
+	column Revenue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 3cb3421d-19eb-4fc1-8dff-b5f6c4e09940
+		summarizeBy: sum
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column COGS
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 48075347-6898-4450-81e3-7d4a5e39bd1b
+		summarizeBy: sum
+		sourceColumn: COGS
+
+		annotation SummarizationSetBy = Automatic
+
+	column DiscountValue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: d6b0cf74-54b5-4135-93e2-68215aba53fb
+		summarizeBy: sum
+		sourceColumn: DiscountValue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactSales = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactSales.csv"),[Delimiter=",", Columns=11, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SalesKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"VendorKey", Int64.Type},{"RegionKey", Int64.Type},{"WarehouseKey", Int64.Type},{"CustomerSegmentKey", Int64.Type},{"Units", Int64.Type},{"Revenue", type number},{"COGS", type number},{"DiscountValue", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

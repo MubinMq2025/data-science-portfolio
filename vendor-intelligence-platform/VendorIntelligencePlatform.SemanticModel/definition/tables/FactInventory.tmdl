@@ -1,0 +1,87 @@
+table FactInventory
+	lineageTag: efeed97f-982d-4473-b05f-f9709a1d417e
+
+	column InventoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: fd94ee77-7e77-44de-8c22-0b098ff42b64
+		summarizeBy: none
+		sourceColumn: InventoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1b505906-b5e6-4c79-b7b8-93ea65b7e6d0
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 392065f1-a6cc-48ca-bdf0-940d6d45733f
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5db3c23c-b873-453b-ab6b-3891d2d86cd8
+		summarizeBy: none
+		sourceColumn: WarehouseKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column OnHandUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: c55075ad-192b-4098-ada0-bc474419e57a
+		summarizeBy: sum
+		sourceColumn: OnHandUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column InTransitUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 96a6e9af-de1c-46fb-88ce-7542d527e179
+		summarizeBy: sum
+		sourceColumn: InTransitUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReorderPoint
+		dataType: int64
+		formatString: 0
+		lineageTag: 780858d8-868c-4230-bded-6c272c0e83dc
+		summarizeBy: sum
+		sourceColumn: ReorderPoint
+
+		annotation SummarizationSetBy = Automatic
+
+	column StockoutFlag
+		dataType: int64
+		formatString: 0
+		lineageTag: d2f24102-fad7-467c-afb0-26ccd628b3d9
+		summarizeBy: sum
+		sourceColumn: StockoutFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactInventory = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactInventory.csv"),[Delimiter=",", Columns=8, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"InventoryKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"WarehouseKey", Int64.Type},{"OnHandUnits", Int64.Type},{"InTransitUnits", Int64.Type},{"ReorderPoint", Int64.Type},{"StockoutFlag", Int64.Type}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

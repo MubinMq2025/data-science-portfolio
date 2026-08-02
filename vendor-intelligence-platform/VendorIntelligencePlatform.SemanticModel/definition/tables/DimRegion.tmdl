@@ -1,0 +1,48 @@
+table DimRegion
+	lineageTag: a8909864-d9c3-45be-b8cc-ad6e21b5232d
+
+	column RegionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 72c8f071-fb2a-40ab-83e3-a94fe58f611f
+		summarizeBy: none
+		sourceColumn: RegionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionName
+		dataType: string
+		lineageTag: 1e2cb057-cd35-4f00-a2c6-482ddc76a442
+		summarizeBy: none
+		sourceColumn: RegionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column RegionFull
+		dataType: string
+		lineageTag: 63ff74e6-2c4d-46bf-945e-634646888a12
+		summarizeBy: none
+		sourceColumn: RegionFull
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: 6d4771a5-bb21-4ec8-aa14-b3aec4b459c1
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimRegion = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimRegion.csv"),[Delimiter=",", Columns=4, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"RegionKey", Int64.Type},{"RegionName", type text},{"RegionFull", type text},{"Country", type text}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

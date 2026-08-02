@@ -1,0 +1,69 @@
+table FactPromotions
+	lineageTag: c6925b9c-fcb7-4006-8fae-b41a8ae6bf1a
+
+	column PromotionFactKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b92c69d-ebfa-44a7-b307-25da516be6ab
+		summarizeBy: none
+		sourceColumn: PromotionFactKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 981e8c6d-450b-4c62-8db2-fbf1342f49dc
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: bafc1c40-d1bf-44c8-83e8-8bc76ad87365
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 26b10a8f-74a1-4d98-9e2a-4086ab196bdf
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromoUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: a03c43f9-6476-49bc-8507-44efd1251b5a
+		summarizeBy: sum
+		sourceColumn: PromoUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromoRevenue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 40b5293d-8e05-4e97-b17f-c668e4ab55b3
+		summarizeBy: sum
+		sourceColumn: PromoRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPromotions = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactPromotions.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PromotionFactKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"PromotionKey", Int64.Type},{"PromoUnits", Int64.Type},{"PromoRevenue", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

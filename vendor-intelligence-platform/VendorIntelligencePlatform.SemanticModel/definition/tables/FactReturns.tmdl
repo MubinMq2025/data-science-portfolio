@@ -1,0 +1,68 @@
+table FactReturns
+	lineageTag: b8f01be7-075b-44d3-baea-c66fc089f0cc
+
+	column ReturnKey
+		dataType: int64
+		formatString: 0
+		lineageTag: cd21fd5d-d637-41b7-bbca-5b813637c6fd
+		summarizeBy: none
+		sourceColumn: ReturnKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1185a44f-1806-4aab-8f34-92064328321c
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 4111839f-2af9-4d82-b8b9-b37d319e0042
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnReason
+		dataType: string
+		lineageTag: 7a0494fc-3816-4e3f-b0e6-f591176caebd
+		summarizeBy: none
+		sourceColumn: ReturnReason
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 475a63a7-4305-487e-b163-13cbf65adc5b
+		summarizeBy: sum
+		sourceColumn: ReturnUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReturnValue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 3d0c4c2d-e756-4f35-bc93-b5c9d1e43911
+		summarizeBy: sum
+		sourceColumn: ReturnValue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactReturns = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactReturns.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ReturnKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"ReturnReason", type text},{"ReturnUnits", Int64.Type},{"ReturnValue", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

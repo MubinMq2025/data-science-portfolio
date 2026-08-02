@@ -1,0 +1,174 @@
+table DimDate
+	lineageTag: d899f9dc-ca23-4821-8eb9-99a32888f0e8
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 961b0ee7-d29d-430c-8d32-149ec7a70c33
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 028353f9-9273-4010-a4b0-9aedebb9f8d5
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 84b2888f-0671-4160-947e-aa2802125479
+			defaultHierarchy: LocalDateTable_8fe99fb8-e177-438d-b3f9-baf96c69aa26.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: a01b2568-da72-4155-9258-9bd871fb09b6
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthNum
+		dataType: int64
+		formatString: 0
+		lineageTag: a84e84e2-9de6-4aa9-911b-a47a3136b093
+		summarizeBy: sum
+		sourceColumn: MonthNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 5713e8cc-61a9-45d9-a277-53154b98441e
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthShort
+		dataType: string
+		lineageTag: 9e222528-1a23-4108-a308-6d031263accb
+		summarizeBy: none
+		sourceColumn: MonthShort
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		dataType: string
+		lineageTag: bc5ec1d5-08b2-4a5f-860b-71fe818cde5a
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: ea946176-6d5d-4209-8d1b-326cb4b1b27e
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearMonth
+		dataType: string
+		lineageTag: 22f6e17f-c623-44b3-91af-f2700e2206d9
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+		annotation SummarizationSetBy = Automatic
+
+	column YearQuarter
+		dataType: string
+		lineageTag: 833980e6-2e45-429a-821a-c144efa0cc94
+		summarizeBy: none
+		sourceColumn: YearQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekOfYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 04aa158d-4796-4a8b-a8d0-b240c56d77e1
+		summarizeBy: sum
+		sourceColumn: WeekOfYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeek
+		dataType: string
+		lineageTag: 6a94e058-f180-47a1-832a-b8b345b86779
+		summarizeBy: none
+		sourceColumn: DayOfWeek
+
+		annotation SummarizationSetBy = Automatic
+
+	column DayOfWeekNum
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c1e5e2b-f304-4270-be0c-59cdfc607e8b
+		summarizeBy: sum
+		sourceColumn: DayOfWeekNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsWeekend
+		dataType: boolean
+		lineageTag: 5adf22b3-155c-42f2-8840-32816ae11120
+		summarizeBy: none
+		sourceColumn: IsWeekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column HolidayEvent
+		dataType: string
+		lineageTag: 9de17ca7-bc5f-4a9a-8da4-287d8df7726d
+		summarizeBy: none
+		sourceColumn: HolidayEvent
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsHoliday
+		dataType: boolean
+		lineageTag: 43a747cb-baee-4f7d-98fa-917eb88c652d
+		summarizeBy: none
+		sourceColumn: IsHoliday
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 95d806c6-e6b6-4c52-83df-6c34ae73820b
+		summarizeBy: sum
+		sourceColumn: FiscalYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column FiscalQuarter
+		dataType: string
+		lineageTag: eddec66b-6186-4ad7-97de-e11e84aa9cf2
+		summarizeBy: none
+		sourceColumn: FiscalQuarter
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimDate.csv"),[Delimiter=",", Columns=18, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DateKey", Int64.Type},{"Date", type date},{"Day", Int64.Type},{"MonthNum", Int64.Type},{"MonthName", type text},{"MonthShort", type text},{"Quarter", type text},{"Year", Int64.Type},{"YearMonth", type text},{"YearQuarter", type text},{"WeekOfYear", Int64.Type},{"DayOfWeek", type text},{"DayOfWeekNum", Int64.Type},{"IsWeekend", type logical},{"HolidayEvent", type text},{"IsHoliday", type logical},{"FiscalYear", Int64.Type},{"FiscalQuarter", type text}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

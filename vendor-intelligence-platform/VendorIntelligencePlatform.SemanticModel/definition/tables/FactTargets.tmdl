@@ -1,0 +1,69 @@
+table FactTargets
+	lineageTag: 79316e14-42f3-4b46-b434-1a670cbd5faf
+
+	column TargetKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b80d50bf-577c-482f-b137-b267e0b14607
+		summarizeBy: none
+		sourceColumn: TargetKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8ac4a199-4e72-4f49-8f5d-4a5181aa49ad
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column VendorKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b90d3a20-a041-4dc1-bd92-38cce62afc0d
+		summarizeBy: none
+		sourceColumn: VendorKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column TargetRevenue
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: ed57c9bb-18f4-4ff6-8794-204ec78a73f2
+		summarizeBy: sum
+		sourceColumn: TargetRevenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column TargetUnits
+		dataType: int64
+		formatString: 0
+		lineageTag: 930438bf-8adc-463d-bbc6-7ff50ff74dec
+		summarizeBy: sum
+		sourceColumn: TargetUnits
+
+		annotation SummarizationSetBy = Automatic
+
+	column BudgetCost
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 1688d910-4fe3-4ec0-a2c8-9aed2c958b71
+		summarizeBy: sum
+		sourceColumn: BudgetCost
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactTargets = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactTargets.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"TargetKey", Int64.Type},{"DateKey", Int64.Type},{"VendorKey", Int64.Type},{"TargetRevenue", type number},{"TargetUnits", Int64.Type},{"BudgetCost", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

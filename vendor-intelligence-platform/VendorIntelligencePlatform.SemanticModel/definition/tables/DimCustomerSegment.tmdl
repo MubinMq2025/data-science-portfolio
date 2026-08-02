@@ -1,0 +1,40 @@
+table DimCustomerSegment
+	lineageTag: aad32a41-1db8-4bda-9c2e-7ef47029ff3b
+
+	column SegmentKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 792153f9-70ab-488f-b973-f591db6ba734
+		summarizeBy: none
+		sourceColumn: SegmentKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SegmentName
+		dataType: string
+		lineageTag: 9bcce320-e6b1-42c0-b1e1-3136761c9982
+		summarizeBy: none
+		sourceColumn: SegmentName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Description
+		dataType: string
+		lineageTag: 2ec4b5c8-8163-46a4-9cae-421a2ce5b8f5
+		summarizeBy: none
+		sourceColumn: Description
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCustomerSegment = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimCustomerSegment.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"SegmentKey", Int64.Type},{"SegmentName", type text},{"Description", type text}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

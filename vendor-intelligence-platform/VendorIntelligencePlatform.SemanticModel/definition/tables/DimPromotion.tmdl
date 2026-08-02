@@ -1,0 +1,81 @@
+table DimPromotion
+	lineageTag: 64773b76-7670-4d7e-b2ec-a5b1d77c7f68
+
+	column PromotionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a46ff2f-9fd2-41c6-b0f9-225d85c431a3
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionName
+		dataType: string
+		lineageTag: 7e1cad99-3071-44c6-9efc-992dfd0c7f6f
+		summarizeBy: none
+		sourceColumn: PromotionName
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionType
+		dataType: string
+		lineageTag: 12be4514-5891-4ec3-8b56-3c7e5e67397c
+		summarizeBy: none
+		sourceColumn: PromotionType
+
+		annotation SummarizationSetBy = Automatic
+
+	column StartDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 15efe82f-3553-4d01-934f-f9d9909be08b
+		summarizeBy: none
+		sourceColumn: StartDate
+
+		variation Variation
+			isDefault
+			relationship: 42cec70b-8e44-42c0-a161-b9f17e346023
+			defaultHierarchy: LocalDateTable_f20d6c27-32fe-4ba9-a0ec-99d089da836e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 492874ff-39bf-4c76-ab51-ed36ca1bb16e
+		summarizeBy: none
+		sourceColumn: EndDate
+
+		variation Variation
+			isDefault
+			relationship: 592d1061-e7f7-48db-808a-dfa1c53d7a1e
+			defaultHierarchy: LocalDateTable_bcf5cee5-4ffe-4f78-a56f-2b20fc752b2a.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column DiscountDepthPct
+		dataType: double
+		formatString: 0.0"%"
+		lineageTag: aa20f64b-0871-4a17-b5e1-e93414f83893
+		summarizeBy: sum
+		sourceColumn: DiscountDepthPct
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimPromotion = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimPromotion.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PromotionKey", Int64.Type},{"PromotionName", type text},{"PromotionType", type text},{"StartDate", type date},{"EndDate", type date},{"DiscountDepthPct", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

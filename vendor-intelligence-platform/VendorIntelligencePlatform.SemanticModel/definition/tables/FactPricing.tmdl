@@ -1,0 +1,69 @@
+table FactPricing
+	lineageTag: 0191f596-62b5-40c0-beba-f3e10b1a9ca1
+
+	column PricingKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 45bf65b8-ab5e-4fe5-893c-88370f181fd3
+		summarizeBy: none
+		sourceColumn: PricingKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5bf1f6f7-4ec2-473b-a4f6-8c1d10a6e571
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 62beef4c-b613-4222-9c73-40ad2ec28e4d
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ListPrice
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 5b3f1966-5861-429d-b9f4-06217e411bfc
+		summarizeBy: sum
+		sourceColumn: ListPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column SellingPrice
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: 4df57ff4-fc5a-4fc0-bf01-7cc01e15173f
+		summarizeBy: sum
+		sourceColumn: SellingPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	column CompetitorPrice
+		dataType: double
+		formatString: \$#,##0.00
+		lineageTag: d5cc8929-5f88-4793-9d28-3287165c93f4
+		summarizeBy: sum
+		sourceColumn: CompetitorPrice
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactPricing = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactPricing.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"PricingKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"ListPrice", type number},{"SellingPrice", type number},{"CompetitorPrice", type number}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

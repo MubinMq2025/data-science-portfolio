@@ -1,0 +1,7 @@
+expression ProjectDataFolder = "C:\Users\mukta\Downloads\VendorIntelligencePlatform_1\VIP\Data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 00f880f7-cfd5-47da-9915-09faf077e62d
+
+	annotation PBI_ResultType = Text
+
+	annotation PBI_NavigationStepName = Navigation
+

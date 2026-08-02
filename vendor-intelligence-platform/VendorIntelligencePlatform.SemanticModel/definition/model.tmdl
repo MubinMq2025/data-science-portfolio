@@ -1,0 +1,45 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["DimDate","DimCalendar","DimVendor","DimProduct","DimCategory","DimPromotion","DimRegion","DimWarehouse","DimScenario","DimCustomerSegment","FactSales","FactInventory","FactTraffic","FactForecast","FactAdvertising","FactReturns","FactTargets","FactPricing","FactPromotions","FactAvailability","ProjectDataFolder"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DimDate
+ref table DimCalendar
+ref table DimVendor
+ref table DimProduct
+ref table DimCategory
+ref table DimPromotion
+ref table DimRegion
+ref table DimWarehouse
+ref table DimScenario
+ref table DimCustomerSegment
+ref table FactSales
+ref table FactInventory
+ref table FactTraffic
+ref table FactForecast
+ref table FactAdvertising
+ref table FactReturns
+ref table FactTargets
+ref table FactPricing
+ref table FactPromotions
+ref table FactAvailability
+ref table 'KPI Measures'
+ref table 'Metric Selector'
+ref table DateTableTemplate_1b6ad3ca-01ef-4421-96c5-86c7cca4a0e9
+ref table LocalDateTable_8fe99fb8-e177-438d-b3f9-baf96c69aa26
+ref table LocalDateTable_8741e79e-342a-4c6b-863f-eca2af96d9e7
+ref table LocalDateTable_4f6e233e-a969-44f4-9087-df31752ae407
+ref table LocalDateTable_f20d6c27-32fe-4ba9-a0ec-99d089da836e
+ref table LocalDateTable_bcf5cee5-4ffe-4f78-a56f-2b20fc752b2a
+
+ref cultureInfo en-US
+

@@ -1,0 +1,58 @@
+table DimCalendar
+	lineageTag: e3f4aa8a-1239-430f-babd-b1e543daec7c
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5fc79f66-3d48-4e14-8fcb-077bd162a988
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column RetailWeekNum
+		dataType: int64
+		formatString: 0
+		lineageTag: f1c2978e-9b0d-456d-bc60-33554612f191
+		summarizeBy: sum
+		sourceColumn: RetailWeekNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column RetailPeriod
+		dataType: int64
+		formatString: 0
+		lineageTag: e8d56766-f63f-43e0-a578-465d6a59a011
+		summarizeBy: sum
+		sourceColumn: RetailPeriod
+
+		annotation SummarizationSetBy = Automatic
+
+	column RetailPeriodName
+		dataType: string
+		lineageTag: af7b184f-981f-4046-bc4a-81eb2ce3f013
+		summarizeBy: none
+		sourceColumn: RetailPeriodName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fiscal445Label
+		dataType: string
+		lineageTag: 93859536-bfe4-4446-8655-3c8999d37050
+		summarizeBy: none
+		sourceColumn: Fiscal445Label
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimCalendar = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\DimCalendar.csv"),[Delimiter=",", Columns=5, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"DateKey", Int64.Type},{"RetailWeekNum", Int64.Type},{"RetailPeriod", Int64.Type},{"RetailPeriodName", type text},{"Fiscal445Label", type text}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+

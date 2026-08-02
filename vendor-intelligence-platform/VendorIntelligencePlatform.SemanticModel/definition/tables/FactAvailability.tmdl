@@ -1,0 +1,69 @@
+table FactAvailability
+	lineageTag: a08594c4-01e9-499c-8aa1-37592b6a1a07
+
+	column AvailabilityKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 16b4f912-345a-4262-9d49-b8123a6e76a4
+		summarizeBy: none
+		sourceColumn: AvailabilityKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 47dd8d1a-ea5a-4818-924e-cdf1b87fa4ee
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 68fcaba1-b3fe-4a1c-a1c9-02b02c808699
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column WarehouseKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 3352d881-1df3-4930-93a3-32f675308a06
+		summarizeBy: none
+		sourceColumn: WarehouseKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column AvailabilityPct
+		dataType: double
+		formatString: 0.0"%"
+		lineageTag: a0924243-6bd5-4cbb-8e31-9622298a2b1d
+		summarizeBy: sum
+		sourceColumn: AvailabilityPct
+
+		annotation SummarizationSetBy = Automatic
+
+	column InStockFlag
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c9ba48d-2c91-4636-8e5f-eaac343f3fef
+		summarizeBy: sum
+		sourceColumn: InStockFlag
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactAvailability = m
+		mode: import
+		source =
+				let
+				Source = Csv.Document(File.Contents(ProjectDataFolder & "\FactAvailability.csv"),[Delimiter=",", Columns=6, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				#"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"AvailabilityKey", Int64.Type},{"DateKey", Int64.Type},{"ProductKey", Int64.Type},{"WarehouseKey", Int64.Type},{"AvailabilityPct", type number},{"InStockFlag", Int64.Type}})
+				in
+				#"Changed Type"
+
+	annotation PBI_ResultType = Table
+
