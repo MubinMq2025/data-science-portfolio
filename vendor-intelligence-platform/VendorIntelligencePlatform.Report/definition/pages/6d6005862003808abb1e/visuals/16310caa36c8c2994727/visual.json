@@ -1,0 +1,106 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "16310caa36c8c2994727",
+  "position": {
+    "x": 9.5127993393889358,
+    "y": 289.61189099917425,
+    "z": 4,
+    "height": 430.1899256812552,
+    "width": 471.41205615194059,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "lineChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimDate"
+                    }
+                  },
+                  "Property": "YearMonth"
+                }
+              },
+              "queryRef": "DimDate.YearMonth",
+              "nativeQueryRef": "YearMonth",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "ROAS"
+                }
+              },
+              "queryRef": "KPI Measures.ROAS",
+              "nativeQueryRef": "ROAS"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimDate"
+                  }
+                },
+                "Property": "YearMonth"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "766c9509cc6dd25a13ee",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimDate"
+              }
+            },
+            "Property": "YearMonth"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "9069e614351769584423",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "ROAS"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

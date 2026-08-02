@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "a82859e3ca28497d0618",
+  "position": {
+    "x": 344.57473162675478,
+    "y": 0,
+    "z": 1000,
+    "height": 280.0990916597853,
+    "width": 280.0990916597853,
+    "tabOrder": 1000
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Price Index vs Competitor"
+                }
+              },
+              "queryRef": "KPI Measures.Price Index vs Competitor",
+              "nativeQueryRef": "Price Index vs Competitor"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "KPI Measures"
+                  }
+                },
+                "Property": "Price Index vs Competitor"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "d1ffc4a199c610112374",
+  "position": {
+    "x": 337.17588769611893,
+    "y": 0,
+    "z": 1,
+    "height": 280.0990916597853,
+    "width": 280.0990916597853,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Estimated CSAT %"
+                }
+              },
+              "queryRef": "KPI Measures.Estimated CSAT %",
+              "nativeQueryRef": "Estimated CSAT %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "KPI Measures"
+                  }
+                },
+                "Property": "Estimated CSAT %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f14d4b549e084eba15d2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Estimated CSAT %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

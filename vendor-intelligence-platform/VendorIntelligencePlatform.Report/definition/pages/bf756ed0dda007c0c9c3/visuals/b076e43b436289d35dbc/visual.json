@@ -1,0 +1,162 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "b076e43b436289d35dbc",
+  "position": {
+    "x": 901.60198183319574,
+    "y": 289.61189099917425,
+    "z": 4,
+    "height": 430.1899256812552,
+    "width": 378.39801816680432,
+    "tabOrder": 4
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduct"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "DimProduct.ProductName",
+              "nativeQueryRef": "ProductName",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "KPI Measures.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "ABC Classification"
+                }
+              },
+              "queryRef": "KPI Measures.ABC Classification",
+              "nativeQueryRef": "ABC Classification"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "XYZ Classification"
+                }
+              },
+              "queryRef": "KPI Measures.XYZ Classification",
+              "nativeQueryRef": "XYZ Classification"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DimProduct"
+                  }
+                },
+                "Property": "ProductName"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "bf871aad700ae3e6acd0",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduct"
+              }
+            },
+            "Property": "ProductName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "c15c35211bad67b68a38",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Total Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c741e7e90c6bb01e0d9c",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "ABC Classification"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "bc0be3ad091350843744",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "XYZ Classification"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

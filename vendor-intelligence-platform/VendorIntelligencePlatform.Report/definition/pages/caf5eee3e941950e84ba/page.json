@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "caf5eee3e941950e84ba",
+  "displayName": "Executive Drillthrough",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "31fa80520b3905e4959e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimVendor"
+              }
+            },
+            "Property": "VendorName"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "e0346bb7a4d667473875",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "d3a32155478e086d1881",
+        "boundFilter": "31fa80520b3905e4959e",
+        "asAggregation": false,
+        "qnaSingleSelectRequired": false,
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimVendor"
+              }
+            },
+            "Property": "VendorName"
+          }
+        }
+      }
+    ]
+  }
+}

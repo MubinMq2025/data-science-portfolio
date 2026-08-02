@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "49d0b8190e970880e106",
+  "position": {
+    "x": 26.42444260941371,
+    "y": 280.0990916597853,
+    "z": 6000,
+    "height": 439.7027250206441,
+    "width": 464.01321222130474,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "columnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimRegion"
+                    }
+                  },
+                  "Property": "RegionName"
+                }
+              },
+              "queryRef": "DimRegion.RegionName",
+              "nativeQueryRef": "RegionName",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Sessions"
+                }
+              },
+              "queryRef": "KPI Measures.Total Sessions",
+              "nativeQueryRef": "Total Sessions"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Orders (Traffic)"
+                }
+              },
+              "queryRef": "KPI Measures.Orders (Traffic)",
+              "nativeQueryRef": "Orders (Traffic)"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "KPI Measures"
+                  }
+                },
+                "Property": "Total Sessions"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "5d652f97d3030eca3e62",
+  "position": {
+    "x": 998.84393063583821,
+    "y": 280.0990916597853,
+    "z": 5000,
+    "height": 201.88274153592073,
+    "width": 281.15606936416185,
+    "tabOrder": 5000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimRegion"
+                    }
+                  },
+                  "Property": "RegionName"
+                }
+              },
+              "queryRef": "DimRegion.RegionName",
+              "nativeQueryRef": "RegionName"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Conversion Rate %"
+                }
+              },
+              "queryRef": "KPI Measures.Conversion Rate %",
+              "nativeQueryRef": "Conversion Rate %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

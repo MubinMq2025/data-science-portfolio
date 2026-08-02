@@ -1,0 +1,121 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "552fde84541c60917500",
+  "position": {
+    "x": 9.5127993393889358,
+    "y": 289.61189099917425,
+    "z": 4000,
+    "height": 395.30966143682906,
+    "width": 424.90503715937245,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduct"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "DimProduct.ProductName",
+              "nativeQueryRef": "ProductName"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Average Selling Price (Pricing)"
+                }
+              },
+              "queryRef": "KPI Measures.Average Selling Price (Pricing)",
+              "nativeQueryRef": "Average Selling Price (Pricing)",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Units Sold"
+                }
+              },
+              "queryRef": "KPI Measures.Total Units Sold",
+              "nativeQueryRef": "Total Units Sold"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "de0bacd1c33c646806d6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Average Selling Price (Pricing)"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "28ee88c191941c7d8120",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Total Units Sold"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d8a19c84d0930d17ace7",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduct"
+              }
+            },
+            "Property": "ProductName"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
+  }
+}

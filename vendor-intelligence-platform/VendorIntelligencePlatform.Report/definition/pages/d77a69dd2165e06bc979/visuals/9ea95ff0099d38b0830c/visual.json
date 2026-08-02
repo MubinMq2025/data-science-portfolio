@@ -1,0 +1,117 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "9ea95ff0099d38b0830c",
+  "position": {
+    "x": 377.34104046242777,
+    "y": 289.61189099917425,
+    "z": 6,
+    "height": 430.1899256812552,
+    "width": 478.81090008257638,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimCategory"
+                    }
+                  },
+                  "Property": "CategoryName"
+                }
+              },
+              "queryRef": "DimCategory.CategoryName",
+              "nativeQueryRef": "CategoryName",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Return Value"
+                }
+              },
+              "queryRef": "KPI Measures.Return Value",
+              "nativeQueryRef": "Return Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Return Value % of Revenue"
+                }
+              },
+              "queryRef": "KPI Measures.Return Value % of Revenue",
+              "nativeQueryRef": "Return Value % of Revenue"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "4dc42b731b03508561e6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimCategory"
+              }
+            },
+            "Property": "CategoryName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "ad2356b050bb64db08bb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Return Value"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "6e26bc4bd57537cbc68b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Return Value % of Revenue"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

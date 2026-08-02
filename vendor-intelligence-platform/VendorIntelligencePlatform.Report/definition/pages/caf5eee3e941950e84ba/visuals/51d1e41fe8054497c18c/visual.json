@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "51d1e41fe8054497c18c",
+  "position": {
+    "x": 685.97853014037992,
+    "y": 289.61189099917425,
+    "z": 5,
+    "height": 376.28406275805122,
+    "width": 576.05284888521885,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduct"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "DimProduct.ProductName",
+              "nativeQueryRef": "ProductName"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "KPI Measures.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Units Sold"
+                }
+              },
+              "queryRef": "KPI Measures.Total Units Sold",
+              "nativeQueryRef": "Total Units Sold"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Return Rate %"
+                }
+              },
+              "queryRef": "KPI Measures.Return Rate %",
+              "nativeQueryRef": "Return Rate %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1fbb6038b0206040a2dd",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduct"
+              }
+            },
+            "Property": "ProductName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "067ebea4438194ed45d2",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Total Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f59fb4391c0bdcddac20",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Total Units Sold"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "baced0780a66e5c00510",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Return Rate %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

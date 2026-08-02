@@ -1,0 +1,104 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "f07e202d44b126197e78",
+  "position": {
+    "x": 844.05797101449275,
+    "y": 289.59742351046697,
+    "z": 6000,
+    "height": 430.78904991948468,
+    "width": 435.94202898550725,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimVendor"
+                    }
+                  },
+                  "Property": "VendorTier"
+                }
+              },
+              "queryRef": "DimVendor.VendorTier",
+              "nativeQueryRef": "VendorTier",
+              "active": true
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimVendor"
+                    }
+                  },
+                  "Property": "VendorName"
+                }
+              },
+              "queryRef": "DimVendor.VendorName",
+              "nativeQueryRef": "VendorName",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Total Revenue"
+                }
+              },
+              "queryRef": "KPI Measures.Total Revenue",
+              "nativeQueryRef": "Total Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Vendor Health Score"
+                }
+              },
+              "queryRef": "KPI Measures.Vendor Health Score",
+              "nativeQueryRef": "Vendor Health Score"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Supplier Reliability %"
+                }
+              },
+              "queryRef": "KPI Measures.Supplier Reliability %",
+              "nativeQueryRef": "Supplier Reliability %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

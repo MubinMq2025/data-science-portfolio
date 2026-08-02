@@ -1,0 +1,112 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "d3690a075d8b962d7374",
+  "position": {
+    "x": 904.77291494632539,
+    "y": 349.85962014863753,
+    "z": 5,
+    "height": 369.94219653179192,
+    "width": 375.22708505367467,
+    "tabOrder": 5
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimPromotion"
+                    }
+                  },
+                  "Property": "PromotionType"
+                }
+              },
+              "queryRef": "DimPromotion.PromotionType",
+              "nativeQueryRef": "PromotionType"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Promo Revenue"
+                }
+              },
+              "queryRef": "KPI Measures.Promo Revenue",
+              "nativeQueryRef": "Promo Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Promotion ROI"
+                }
+              },
+              "queryRef": "KPI Measures.Promotion ROI",
+              "nativeQueryRef": "Promotion ROI"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fd53cb6d980840ed04c9",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimPromotion"
+              }
+            },
+            "Property": "PromotionType"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e0b138daaa6e0501e9c0",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Promo Revenue"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "74a26fba3d37054b2c99",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Promotion ROI"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "726565aebcbe2b78209c",
+  "position": {
+    "x": 434.41783649876135,
+    "y": 289.61189099917425,
+    "z": 5001,
+    "height": 395.30966143682906,
+    "width": 425.962014863749,
+    "tabOrder": 5001
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimProduct"
+                    }
+                  },
+                  "Property": "ProductName"
+                }
+              },
+              "queryRef": "DimProduct.ProductName",
+              "nativeQueryRef": "ProductName"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Average List Price"
+                }
+              },
+              "queryRef": "KPI Measures.Average List Price",
+              "nativeQueryRef": "Average List Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Net Price"
+                }
+              },
+              "queryRef": "KPI Measures.Net Price",
+              "nativeQueryRef": "Net Price"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Discount Depth %"
+                }
+              },
+              "queryRef": "KPI Measures.Discount Depth %",
+              "nativeQueryRef": "Discount Depth %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "ea537fba67c0ea17c7a6",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimProduct"
+              }
+            },
+            "Property": "ProductName"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "0420a4070640002c017b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Average List Price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5604ac354e8cc2d0a0d3",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Net Price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "3ad58f8850b0060d37c5",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "KPI Measures"
+              }
+            },
+            "Property": "Discount Depth %"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

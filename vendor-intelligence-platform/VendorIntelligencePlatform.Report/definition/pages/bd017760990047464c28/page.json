@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "bd017760990047464c28",
+  "displayName": "Vendor Performance",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a2a5fbb12b500c028aab",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimVendor"
+              }
+            },
+            "Property": "VendorName"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  },
+  "pageBinding": {
+    "name": "6af3cc772e126c8b1d40",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "01b2d954b2b27d0e1230",
+        "boundFilter": "a2a5fbb12b500c028aab",
+        "asAggregation": false,
+        "qnaSingleSelectRequired": false,
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DimVendor"
+              }
+            },
+            "Property": "VendorName"
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "VendorIntelligenceTheme",
+  "dataColors": [
+    "#FF9900",
+    "#232F3E",
+    "#37475A",
+    "#FFB84D",
+    "#8A94A6",
+    "#146EB4",
+    "#D5DBDB",
+    "#00A8E1"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#232F3E",
+  "tableAccent": "#FF9900",
+  "good": "#2E7D32",
+  "neutral": "#FFB300",
+  "bad": "#C62828",
+  "textClasses": {
+    "title": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 14,
+      "color": "#232F3E"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 10,
+      "color": "#37475A"
+    },
+    "callout": {
+      "fontFace": "Segoe UI Semibold",
+      "fontSize": 28,
+      "color": "#232F3E"
+    }
+  }
+}

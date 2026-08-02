@@ -1,0 +1,160 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "b0311ef12824e8bd7022",
+  "position": {
+    "x": 491.494632535095,
+    "y": 289.61189099917425,
+    "z": 6,
+    "height": 430.1899256812552,
+    "width": 413.27828241123041,
+    "tabOrder": 6
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactAdvertising"
+                    }
+                  },
+                  "Property": "CampaignType"
+                }
+              },
+              "queryRef": "FactAdvertising.CampaignType",
+              "nativeQueryRef": "Count of CampaignType",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "FactAdvertising"
+                        }
+                      },
+                      "Property": "AdSpend"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(FactAdvertising.AdSpend)",
+              "nativeQueryRef": "AdSpend"
+            },
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "FactAdvertising"
+                        }
+                      },
+                      "Property": "AdSales"
+                    }
+                  },
+                  "Function": 0
+                }
+              },
+              "queryRef": "Sum(FactAdvertising.AdSales)",
+              "nativeQueryRef": "AdSales"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "FactAdvertising"
+                      }
+                    },
+                    "Property": "AdSpend"
+                  }
+                },
+                "Function": 0
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "d346acce171009a92be5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "FactAdvertising"
+              }
+            },
+            "Property": "CampaignType"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "8e4f529140539b6d30aa",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FactAdvertising"
+                  }
+                },
+                "Property": "AdSpend"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "438230d0264d7c8e55bc",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "FactAdvertising"
+                  }
+                },
+                "Property": "AdSales"
+              }
+            },
+            "Function": 0
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

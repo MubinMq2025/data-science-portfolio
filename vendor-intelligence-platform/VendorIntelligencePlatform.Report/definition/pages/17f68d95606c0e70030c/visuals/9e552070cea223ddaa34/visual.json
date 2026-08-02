@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "9e552070cea223ddaa34",
+  "position": {
+    "x": 746.22625928984314,
+    "y": 289.61189099917425,
+    "z": 6000,
+    "height": 382.62592898431052,
+    "width": 521.09000825763837,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DimCategory"
+                    }
+                  },
+                  "Property": "CategoryName"
+                }
+              },
+              "queryRef": "DimCategory.CategoryName",
+              "nativeQueryRef": "CategoryName",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "On Hand Units"
+                }
+              },
+              "queryRef": "KPI Measures.On Hand Units",
+              "nativeQueryRef": "On Hand Units"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Excess Inventory Value"
+                }
+              },
+              "queryRef": "KPI Measures.Excess Inventory Value",
+              "nativeQueryRef": "Excess Inventory Value"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "KPI Measures"
+                    }
+                  },
+                  "Property": "Lost Sales Estimate"
+                }
+              },
+              "queryRef": "KPI Measures.Lost Sales Estimate",
+              "nativeQueryRef": "Lost Sales Estimate"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
